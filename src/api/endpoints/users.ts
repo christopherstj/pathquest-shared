@@ -4,6 +4,7 @@ import type {
   ChallengeProgress,
   ProfileStats,
   ServerActionResult,
+  StravaCreds,
   SummitWithPeak,
   User,
   UserPeakWithSummitCount,
@@ -97,21 +98,7 @@ export type CreateUserRequest = {
   name?: string | null;
   email?: string | null;
   pic?: string | null;
-  stravaCreds: {
-    access_token: string;
-    refresh_token: string;
-    expires_at: number;
-    expires_in: number;
-    token_type: string;
-    athlete: {
-      id: number;
-      username?: string;
-      firstname?: string;
-      lastname?: string;
-      profile?: string;
-      profile_medium?: string;
-    };
-  };
+  stravaCreds: StravaCreds;
 };
 
 export type CreateUserResponse = {
