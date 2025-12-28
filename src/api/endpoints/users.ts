@@ -253,7 +253,7 @@ export async function getIsUserSubscribed(
   init?: JsonRequestInit
 ): Promise<{ isSubscribed: boolean }> {
   return await client.fetchJson<{ isSubscribed: boolean }>(
-    `/users/${encodeURIComponent(userId)}/subscription`,
+    `/users/${encodeURIComponent(userId)}/is-subscribed`,
     init
   );
 }
