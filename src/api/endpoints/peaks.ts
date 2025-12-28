@@ -1,5 +1,13 @@
 import type { ApiClient, JsonRequestInit } from "../client";
-import type { Activity, AscentDetail, Challenge, ManualPeakSummit, Peak, Summit } from "../../types";
+import type {
+  Activity,
+  AscentDetail,
+  Challenge,
+  CurrentWeather,
+  ManualPeakSummit,
+  Peak,
+  Summit,
+} from "../../types";
 
 export type PeakDetailsPublicResponse = {
   peak: Peak;
@@ -199,32 +207,12 @@ export async function getAscentDetails(
   return await client.fetchJson<AscentDetailsResponse>(`/peaks/ascent/${encodeURIComponent(ascentId)}`, init);
 }
 
-export type PeakWeatherResponse = {
-  current: {
-    temp: number;
-    conditions: string;
-    windSpeed: number;
-    windDirection: number;
-    humidity: number;
-    pressure: number;
-    visibility: number;
-    uvIndex: number;
-  };
-  forecast: Array<{
-    date: string;
-    high: number;
-    low: number;
-    conditions: string;
-    precipitation: number;
-  }>;
-};
-
 export async function getPeakWeather(
   client: ApiClient,
   peakId: string,
   init?: JsonRequestInit
-): Promise<PeakWeatherResponse> {
-  return await client.fetchJson<PeakWeatherResponse>(`/peaks/${encodeURIComponent(peakId)}/weather`, init);
+): Promise<CurrentWeather> {
+  return await client.fetchJson<CurrentWeather>(`/peaks/${encodeURIComponent(peakId)}/weather`, init);
 }
 
 export async function searchNearestPeaks(
