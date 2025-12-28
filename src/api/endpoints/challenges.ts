@@ -1,5 +1,5 @@
 import type { ApiClient, JsonRequestInit } from "../client";
-import type { Activity, Challenge, Peak } from "../../types";
+import type { Activity, Challenge, Peak, UserChallengeFavorite } from "../../types";
 
 export type ChallengeProgressInfo = {
   total: number;
@@ -32,6 +32,41 @@ export async function getAllChallengeIds(
 ): Promise<{ id: string }[]> {
   const challenges = await client.fetchJson<Challenge[]>(`/challenges?perPage=1000`, init);
   return challenges.map((c) => ({ id: c.id }));
+}
+
+export async function addChallengeFavorite(
+  client: ApiClient,
+  challengeId: string,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/challenges/favorite`, {
+    ...init,
+    method: "POST",
+    json: { challengeId },
+  });
+}
+
+export async function deleteChallengeFavorite(
+  client: ApiClient,
+  challengeId: string,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/challenges/favorite/${encodeURIComponent(challengeId)}`, {
+    ...init,
+    method: "DELETE",
+  });
+}
+
+export async function updateChallengeFavorite(
+  client: ApiClient,
+  favorite: UserChallengeFavorite,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/challenges/favorite`, {
+    ...init,
+    method: "PUT",
+    json: favorite,
+  });
 }
 
 

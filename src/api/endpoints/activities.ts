@@ -35,4 +35,27 @@ export async function getRecentActivities(
   return await client.fetchJson<ActivityStart[]>(`/activities/recent${qs}`, init);
 }
 
+export async function deleteActivity(
+  client: ApiClient,
+  activityId: string,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/activities/${encodeURIComponent(activityId)}`, {
+    ...init,
+    method: "DELETE",
+  });
+}
+
+export async function reprocessActivity(
+  client: ApiClient,
+  activityId: string,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/activities/reprocess`, {
+    ...init,
+    method: "POST",
+    json: { activityId },
+  });
+}
+
 
