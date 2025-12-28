@@ -58,4 +58,37 @@ export async function reprocessActivity(
   });
 }
 
+export async function searchNearestActivities(
+  client: ApiClient,
+  params: { lat: number; lng: number; page: number; search?: string },
+  init?: JsonRequestInit
+): Promise<ActivityStart[]> {
+  const searchParams = new URLSearchParams();
+  searchParams.set("lat", String(params.lat));
+  searchParams.set("lng", String(params.lng));
+  searchParams.set("page", String(params.page));
+  if (params.search) searchParams.set("search", params.search);
+  return await client.fetchJson<ActivityStart[]>(`/activities/search/nearest?${searchParams.toString()}`, init);
+}
+
+export async function getActivityStarts(
+  client: ApiClient,
+  params?: {
+    bounds?: { northwest: [number, number]; southeast: [number, number] };
+    search?: string;
+  },
+  init?: JsonRequestInit
+): Promise<ActivityStart[]> {
+  const searchParams = new URLSearchParams();
+  if (params?.bounds) {
+    searchParams.set("northWestLat", String(params.bounds.northwest[0]));
+    searchParams.set("northWestLng", String(params.bounds.northwest[1]));
+    searchParams.set("southEastLat", String(params.bounds.southeast[0]));
+    searchParams.set("southEastLng", String(params.bounds.southeast[1]));
+  }
+  if (params?.search) searchParams.set("search", params.search);
+  const qs = searchParams.toString();
+  return await client.fetchJson<ActivityStart[]>(`/activities/search${qs ? `?${qs}` : ""}`, init);
+}
+
 

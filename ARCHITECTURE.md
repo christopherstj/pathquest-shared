@@ -80,6 +80,14 @@ Update workflow:
 2. Update the SHA in `pathquest-frontend` and/or `pathquest-native`
 3. Commit lockfile updates in those repos
 
+### Vercel / CI access requirements
+If `pathquest-shared` is **private**, Vercel must have permission to fetch it during `npm install` for `pathquest-frontend` builds.
+
+- Ensure the Vercel project is connected to GitHub via the Vercel GitHub integration.
+- In GitHub, grant the Vercel GitHub App access to the `pathquest-shared` repository (organization/repo access settings).
+- Prefer `git+https://github.com/<org>/pathquest-shared.git#<sha>` in `package.json` for Vercel compatibility.
+- This package uses `prepare` to run `npm run build` on install. Vercel’s install step must not disable lifecycle scripts.
+
 ## Build Strategy for Git Dependencies
 Git dependencies should provide compiled JS + `.d.ts` to consumers.
 

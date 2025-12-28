@@ -1,5 +1,5 @@
 import type { ApiClient, JsonRequestInit } from "../client";
-import type { AscentDetail, Challenge, ManualPeakSummit, Peak, Summit } from "../../types";
+import type { Activity, AscentDetail, Challenge, ManualPeakSummit, Peak, Summit } from "../../types";
 
 export type PeakDetailsPublicResponse = {
   peak: Peak;
@@ -74,6 +74,170 @@ export async function deleteAscent(
     ...init,
     method: "DELETE",
   });
+}
+
+export type PeakDetailsResponse = {
+  peak: Peak;
+  publicSummits: Summit[];
+  challenges: Challenge[];
+  activities?: Activity[];
+};
+
+export async function getPeakDetails(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<PeakDetailsResponse> {
+  return await client.fetchJson<PeakDetailsResponse>(`/peaks/${peakId}`, init);
+}
+
+export type SearchPeaksParams = {
+  northWestLat?: string;
+  northWestLng?: string;
+  southEastLat?: string;
+  southEastLng?: string;
+  search?: string;
+  page?: string;
+  perPage?: string;
+  showSummittedPeaks?: string;
+};
+
+export async function searchPeaks(
+  client: ApiClient,
+  params?: SearchPeaksParams,
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  const searchParams = new URLSearchParams();
+  if (params?.northWestLat) searchParams.set("northWestLat", params.northWestLat);
+  if (params?.northWestLng) searchParams.set("northWestLng", params.northWestLng);
+  if (params?.southEastLat) searchParams.set("southEastLat", params.southEastLat);
+  if (params?.southEastLng) searchParams.set("southEastLng", params.southEastLng);
+  if (params?.search) searchParams.set("search", params.search);
+  if (params?.page) searchParams.set("page", params.page);
+  if (params?.perPage) searchParams.set("perPage", params.perPage);
+  if (params?.showSummittedPeaks) searchParams.set("showSummittedPeaks", params.showSummittedPeaks);
+  const qs = searchParams.toString();
+  return await client.fetchJson<Peak[]>(`/peaks/search${qs ? `?${qs}` : ""}`, init);
+}
+
+export async function getPeaks(
+  client: ApiClient,
+  params: { page: number; perPage: number; search?: string },
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  const searchParams = new URLSearchParams();
+  searchParams.set("page", String(params.page));
+  searchParams.set("perPage", String(params.perPage));
+  if (params.search) searchParams.set("search", params.search);
+  return await client.fetchJson<Peak[]>(`/peaks?${searchParams.toString()}`, init);
+}
+
+export async function getIsPeakFavorited(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<{ isFavorited: boolean }> {
+  return await client.fetchJson<{ isFavorited: boolean }>(`/peaks/favorite?peakId=${encodeURIComponent(peakId)}`, init);
+}
+
+export async function getPeakSummits(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  return await client.fetchJson<Peak[]>(`/peaks/summits/${encodeURIComponent(userId)}`, init);
+}
+
+export async function getRecentSummits(
+  client: ApiClient,
+  params?: { limit?: number },
+  init?: JsonRequestInit
+): Promise<Summit[]> {
+  const limit = params?.limit ?? 10;
+  return await client.fetchJson<Summit[]>(`/peaks/summits/recent?limit=${encodeURIComponent(String(limit))}`, init);
+}
+
+export async function getUnclimbedPeaks(
+  client: ApiClient,
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  return await client.fetchJson<Peak[]>(`/peaks/summits/unclimbed/nearest`, init);
+}
+
+export async function getUnclimbedPeaksWithBounds(
+  client: ApiClient,
+  params: { bounds: { northwest: [number, number]; southeast: [number, number] }; search?: string; showSummittedPeaks?: boolean },
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  const searchParams = new URLSearchParams();
+  searchParams.set("northWestLat", String(params.bounds.northwest[0]));
+  searchParams.set("northWestLng", String(params.bounds.northwest[1]));
+  searchParams.set("southEastLat", String(params.bounds.southeast[0]));
+  searchParams.set("southEastLng", String(params.bounds.southeast[1]));
+  if (params.search) searchParams.set("search", params.search);
+  if (params.showSummittedPeaks) searchParams.set("showSummittedPeaks", "true");
+  return await client.fetchJson<Peak[]>(`/peaks/summits/unclimbed?${searchParams.toString()}`, init);
+}
+
+export async function getFavoritePeaks(
+  client: ApiClient,
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  return await client.fetchJson<Peak[]>(`/peaks/summits/favorites`, init);
+}
+
+export type AscentDetailsResponse = {
+  ascent: AscentDetail;
+  peak: Peak;
+};
+
+export async function getAscentDetails(
+  client: ApiClient,
+  ascentId: string,
+  init?: JsonRequestInit
+): Promise<AscentDetailsResponse> {
+  return await client.fetchJson<AscentDetailsResponse>(`/peaks/ascent/${encodeURIComponent(ascentId)}`, init);
+}
+
+export type PeakWeatherResponse = {
+  current: {
+    temp: number;
+    conditions: string;
+    windSpeed: number;
+    windDirection: number;
+    humidity: number;
+    pressure: number;
+    visibility: number;
+    uvIndex: number;
+  };
+  forecast: Array<{
+    date: string;
+    high: number;
+    low: number;
+    conditions: string;
+    precipitation: number;
+  }>;
+};
+
+export async function getPeakWeather(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<PeakWeatherResponse> {
+  return await client.fetchJson<PeakWeatherResponse>(`/peaks/${encodeURIComponent(peakId)}/weather`, init);
+}
+
+export async function searchNearestPeaks(
+  client: ApiClient,
+  params: { lat: number; lng: number; page: number; search?: string },
+  init?: JsonRequestInit
+): Promise<Peak[]> {
+  const searchParams = new URLSearchParams();
+  searchParams.set("lat", String(params.lat));
+  searchParams.set("lng", String(params.lng));
+  searchParams.set("page", String(params.page));
+  if (params.search) searchParams.set("search", params.search);
+  return await client.fetchJson<Peak[]>(`/peaks/search/nearest?${searchParams.toString()}`, init);
 }
 
 

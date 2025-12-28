@@ -1,5 +1,6 @@
 import type { ApiClient, JsonRequestInit } from "../client";
 import type {
+  Challenge,
   ChallengeProgress,
   ProfileStats,
   ServerActionResult,
@@ -81,6 +82,205 @@ export async function searchUserSummits(
     `/users/${userId}/summits?${searchParams.toString()}`,
     init
   );
+}
+
+export async function getUser(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<User> {
+  return await client.fetchJson<User>(`/users/${encodeURIComponent(userId)}`, init);
+}
+
+export type CreateUserRequest = {
+  id: string | number;
+  name?: string | null;
+  email?: string | null;
+  pic?: string | null;
+  stravaCreds: {
+    access_token: string;
+    refresh_token: string;
+    expires_at: number;
+    expires_in: number;
+    token_type: string;
+    athlete: {
+      id: number;
+      username?: string;
+      firstname?: string;
+      lastname?: string;
+      profile?: string;
+      profile_medium?: string;
+    };
+  };
+};
+
+export type CreateUserResponse = {
+  user: User;
+};
+
+export async function createUser(
+  client: ApiClient,
+  data: CreateUserRequest,
+  init?: JsonRequestInit
+): Promise<CreateUserResponse> {
+  return await client.fetchJson<CreateUserResponse>(`/auth/signup`, {
+    ...init,
+    method: "POST",
+    json: {
+      id: data.id.toString(),
+      name: data.name,
+      email: null,
+      pic: data.pic ?? null,
+      stravaCreds: data.stravaCreds,
+    },
+  });
+}
+
+export type UpdateUserData = {
+  name?: string;
+  email?: string;
+  pic?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  location_coords?: [number, number] | null;
+  update_description?: boolean;
+  is_public?: boolean;
+};
+
+export async function updateUser(
+  client: ApiClient,
+  userId: string,
+  data: UpdateUserData,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/users/${encodeURIComponent(userId)}`, {
+    ...init,
+    method: "PUT",
+    json: data,
+  });
+}
+
+export async function deleteUser(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/users/${encodeURIComponent(userId)}`, {
+    ...init,
+    method: "DELETE",
+  });
+}
+
+export type CreateUserInterestRequest = {
+  userId: string;
+  challengeId: string;
+};
+
+export async function createUserInterest(
+  client: ApiClient,
+  data: CreateUserInterestRequest,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/users/${encodeURIComponent(data.userId)}/interests`, {
+    ...init,
+    method: "POST",
+    json: { challengeId: data.challengeId },
+  });
+}
+
+export async function getActivitiesProcessing(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<{ numProcessing: number }> {
+  return await client.fetchJson<{ numProcessing: number }>(
+    `/users/${encodeURIComponent(userId)}/activities-processing`,
+    init
+  );
+}
+
+export type ImportStatus = {
+  totalActivities: number;
+  processedActivities: number;
+  pendingActivities: number;
+  skippedActivities: number;
+  summitsFound: number;
+  percentComplete: number;
+  estimatedHoursRemaining: number | null;
+  status: "not_started" | "processing" | "complete";
+  message: string;
+};
+
+export async function getImportStatus(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<ImportStatus> {
+  return await client.fetchJson<ImportStatus>(`/users/${encodeURIComponent(userId)}/import-status`, init);
+}
+
+export type UserChallengeData = {
+  challenge: Challenge;
+  progress: {
+    total: number;
+    completed: number;
+    lastProgressDate: string | null;
+    lastProgressCount: number;
+  };
+  peaks: Array<Peak & { is_summited: boolean; summit_date: string | null }>;
+  user: {
+    id: string;
+    name: string;
+    pic?: string;
+  };
+  isOwner: boolean;
+};
+
+export async function getUserChallengeProgress(
+  client: ApiClient,
+  userId: string,
+  challengeId: string,
+  init?: JsonRequestInit
+): Promise<UserChallengeData> {
+  return await client.fetchJson<UserChallengeData>(
+    `/users/${encodeURIComponent(userId)}/challenges/${encodeURIComponent(challengeId)}`,
+    init
+  );
+}
+
+export async function getUserSummitStates(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<{ states: string[] }> {
+  return await client.fetchJson<{ states: string[] }>(
+    `/users/${encodeURIComponent(userId)}/peaks/states`,
+    init
+  );
+}
+
+export async function getIsUserSubscribed(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<{ isSubscribed: boolean }> {
+  return await client.fetchJson<{ isSubscribed: boolean }>(
+    `/users/${encodeURIComponent(userId)}/subscription`,
+    init
+  );
+}
+
+export async function processHistoricalData(
+  client: ApiClient,
+  userId: string,
+  init?: JsonRequestInit
+): Promise<void> {
+  await client.fetchJson<void>(`/historical-data`, {
+    ...init,
+    method: "POST",
+    json: { userId: userId.toString() },
+  });
 }
 
 
