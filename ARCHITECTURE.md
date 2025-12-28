@@ -186,7 +186,7 @@ Each server action follows this pattern:
 - `getAscentDetails.ts` → Extract: `GET /peaks/ascent/:ascentId`
 - `updateAscent.ts` → Extract: `PUT /peaks/ascent/:ascentId`
 - `deleteAscent.ts` → Extract: `DELETE /peaks/ascent/:ascentId`
-- `getPeakWeather.ts` → Extract: `GET /peaks/:id/weather` (if exists) or note it's frontend-only
+- `getPeakWeather.ts` → Extract: `GET /peaks/:id/weather` (returns `CurrentWeather` from `pathquest-api`)
 - `searchPeaksAlongRoute.ts` → Extract: `POST /peaks/search/along-route` (if exists)
 - `redirectPublicPage.ts` → **Skip** (Next.js redirect, not API call)
 
@@ -220,11 +220,11 @@ Each server action follows this pattern:
 - `getUserChallengeProgress.ts` → Extract: `GET /users/:userId/challenges/:challengeId`
 - `searchUserPeaks.ts` → Extract: `GET /users/:id/peaks`
 - `searchUserSummits.ts` → Extract: `GET /users/:id/summits`
-- `getUserSummitStates.ts` → Extract: `GET /users/:id/summits/states` (if exists)
+- `getUserSummitStates.ts` → Extract: `GET /users/:userId/peaks/states`
 - `getActivitiesProcessing.ts` → Extract: `GET /users/:id/activities-processing`
 - `getImportStatus.ts` → Extract: `GET /users/:id/import-status`
-- `getIsUserSubscribed.ts` → Extract: `GET /users/:id/is-subscribed`
-- `createUser.ts` → Extract: `POST /auth/signup`
+- `getIsUserSubscribed.ts` → Extract: `GET /users/:userId/is-subscribed`
+- `createUser.ts` → Extract: `POST /auth/signup` (uses `StravaCreds` from shared types)
 - `createUserInterest.ts` → Extract: `POST /auth/user-interest`
 - `updateUser.ts` → Extract: `PUT /users/:id`
 - `deleteUser.ts` → Extract: `DELETE /users/:id`
