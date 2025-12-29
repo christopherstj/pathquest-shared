@@ -212,7 +212,8 @@ export async function getFavoriteChallenges(
   client: ApiClient,
   init?: JsonRequestInit
 ): Promise<ChallengeProgress[]> {
-  return await client.fetchJson<ChallengeProgress[]>(`/challenges/favorites`, init);
+  // Use search endpoint with favoritesOnly=true
+  return searchChallenges(client, { favoritesOnly: true }, init);
 }
 
 
