@@ -9,7 +9,6 @@ export type CreateApiClientOptions = {
   /**
    * Auth/header injection hook. Implementations may return:
    * - `{ Authorization: "Bearer ..." }`
-   * - and/or any app-specific headers (e.g. `x-user-id`, etc.)
    */
   getAuthHeaders?: GetAuthHeaders;
   /**

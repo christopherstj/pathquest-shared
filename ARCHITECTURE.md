@@ -58,11 +58,30 @@ The API client is designed to be shared across platforms by injecting auth + tra
 
 - `baseUrl`: the `pathquest-api` base URL
 - `getAuthHeaders()`: async function returning headers (e.g. `{ Authorization: "Bearer …" }`)
-  - web: can include `x-user-*` headers + Google IAM token (current architecture)
-  - native: can include mobile PathQuest session token
+  - web: returns NextAuth session JWT token
+  - native: returns PathQuest mobile session token (from expo-secure-store)
 - `fetchImpl`: optional override for testing (defaults to global `fetch`)
 
-This keeps all “what endpoint / what types / how to parse errors” logic in one place.
+This keeps all "what endpoint / what types / how to parse errors" logic in one place.
+
+## API Endpoints
+
+### Auth (`api/endpoints/auth.ts`)
+Mobile authentication endpoints (no auth required):
+- `exchangeStravaCode(client, { code, codeVerifier })` - Exchange Strava PKCE code for PathQuest tokens
+- `refreshMobileToken(client, { refreshToken })` - Refresh an expired access token
+
+### Peaks (`api/endpoints/peaks.ts`)
+Peak discovery and summit management endpoints.
+
+### Challenges (`api/endpoints/challenges.ts`)
+Challenge browsing and progress tracking endpoints.
+
+### Activities (`api/endpoints/activities.ts`)
+Activity viewing and reprocessing endpoints.
+
+### Users (`api/endpoints/users.ts`)
+User profile and settings endpoints.
 
 ## Consumption (GitHub, no npm publish)
 Both client repos depend on this package via a **git URL pinned to a commit SHA**.

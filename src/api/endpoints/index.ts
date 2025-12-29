@@ -1,3 +1,4 @@
+export * from "./auth";
 export * from "./peaks";
 export * from "./challenges";
 export * from "./activities";
