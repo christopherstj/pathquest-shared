@@ -1,4 +1,4 @@
-import { ApiClient } from "../client";
+import { ApiClient, JsonRequestInit } from "../client";
 
 /**
  * User data returned from mobile auth endpoints.
@@ -47,7 +47,7 @@ export async function exchangeStravaCode(
         codeVerifier: string;
         redirectUri?: string;
     },
-    fetchOptions?: RequestInit
+    fetchOptions?: Partial<JsonRequestInit>
 ): Promise<MobileExchangeResponse> {
     return client.fetchJson("/api/auth/mobile/strava/exchange", {
         method: "POST",
@@ -68,7 +68,7 @@ export async function refreshMobileToken(
     params: {
         refreshToken: string;
     },
-    fetchOptions?: RequestInit
+    fetchOptions?: Partial<JsonRequestInit>
 ): Promise<MobileRefreshResponse> {
     return client.fetchJson("/api/auth/mobile/refresh", {
         method: "POST",
