@@ -6,6 +6,7 @@ import type {
   CurrentWeather,
   ManualPeakSummit,
   Peak,
+  PeakActivity,
   Summit,
 } from "../../types";
 
@@ -213,6 +214,40 @@ export async function getPeakWeather(
   init?: JsonRequestInit
 ): Promise<CurrentWeather> {
   return await client.fetchJson<CurrentWeather>(`/peaks/${encodeURIComponent(peakId)}/weather`, init);
+}
+
+export async function getPeakActivity(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<PeakActivity> {
+  return await client.fetchJson<PeakActivity>(`/peaks/${encodeURIComponent(peakId)}/activity`, init);
+}
+
+export type PublicSummit = Summit & {
+  user_id?: string;
+  user_name?: string;
+};
+
+export type PeakPublicSummitsCursorResponse = {
+  summits: PublicSummit[];
+  nextCursor: string | null;
+  totalCount: number;
+};
+
+export async function getPeakPublicSummitsCursor(
+  client: ApiClient,
+  params: { peakId: string; cursor?: string; limit?: number },
+  init?: JsonRequestInit
+): Promise<PeakPublicSummitsCursorResponse> {
+  const searchParams = new URLSearchParams();
+  if (params.cursor) searchParams.set("cursor", params.cursor);
+  if (params.limit) searchParams.set("limit", String(params.limit));
+  const qs = searchParams.toString();
+  return await client.fetchJson<PeakPublicSummitsCursorResponse>(
+    `/peaks/${encodeURIComponent(params.peakId)}/public-summits${qs ? `?${qs}` : ""}`,
+    init
+  );
 }
 
 export async function searchNearestPeaks(

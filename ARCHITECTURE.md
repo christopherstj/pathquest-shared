@@ -74,6 +74,10 @@ Mobile authentication endpoints (no auth required):
 ### Peaks (`api/endpoints/peaks.ts`)
 Peak discovery and summit management endpoints.
 
+Phase 2 additions (used by native Peak Detail):
+- `getPeakActivity(client, peakId)` → `GET /api/peaks/:id/activity`
+- `getPeakPublicSummitsCursor(client, { peakId, cursor?, limit? })` → `GET /api/peaks/:id/public-summits` (cursor pagination; returns `{ summits, nextCursor, totalCount }`)
+
 ### Challenges (`api/endpoints/challenges.ts`)
 Challenge browsing and progress tracking endpoints.
 
