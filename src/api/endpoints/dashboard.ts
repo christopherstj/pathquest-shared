@@ -17,7 +17,7 @@ export type SuggestedPeakWeather = {
 };
 
 /**
- * Suggested peak from user's favorited challenges
+ * Suggested peak - either from user's challenges or a nearby exploration suggestion
  */
 export type SuggestedPeak = {
   peak_id: string;
@@ -25,9 +25,10 @@ export type SuggestedPeak = {
   peak_elevation: number; // meters
   peak_coords: { lat: number; lng: number };
   distance_miles: number;
-  challenge_id: string;
-  challenge_name: string;
-  challenge_remaining: number;
+  suggestion_type: 'challenge' | 'explore'; // 'challenge' = from favorited challenge, 'explore' = nearby tall peak
+  challenge_id: string | null;
+  challenge_name: string | null;
+  challenge_remaining: number | null;
   weather: SuggestedPeakWeather;
 };
 
