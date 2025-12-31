@@ -12,6 +12,7 @@ export type { JournalEntry, JournalFilters, JournalResult } from "./JournalEntry
 export type { default as ManualPeakSummit } from "./ManualPeakSummit";
 export type { default as Peak } from "./Peak";
 export type { default as PeakActivity } from "./PeakActivity";
+export type { default as PeakForecast, DailyForecast } from "./PeakForecast";
 export type { default as ProductDisplay } from "./ProductDisplay";
 export type { ClimbingStreak, ProfileStats } from "./ProfileStats";
 export type { default as ServerActionResult } from "./ServerActionResult";

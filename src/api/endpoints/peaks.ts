@@ -7,6 +7,7 @@ import type {
   ManualPeakSummit,
   Peak,
   PeakActivity,
+  PeakForecast,
   Summit,
 } from "../../types";
 
@@ -263,4 +264,10 @@ export async function searchNearestPeaks(
   return await client.fetchJson<Peak[]>(`/peaks/search/nearest?${searchParams.toString()}`, init);
 }
 
-
+export async function getPeakForecast(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<PeakForecast> {
+  return await client.fetchJson<PeakForecast>(`/peaks/${encodeURIComponent(peakId)}/forecast`, init);
+}
