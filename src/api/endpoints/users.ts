@@ -217,7 +217,7 @@ export type UserChallengeData = {
     lastProgressDate: string | null;
     lastProgressCount: number;
   };
-  peaks: Array<Peak & { is_summited: boolean; summit_date: string | null }>;
+  peaks: Array<Peak & { is_summited: boolean; summit_date: string | null; summits: number }>;
   user: {
     id: string;
     name: string;
