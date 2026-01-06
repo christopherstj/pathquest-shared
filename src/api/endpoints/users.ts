@@ -15,6 +15,7 @@ export type UserProfileResponse = {
   user: User;
   stats: ProfileStats;
   acceptedChallenges: ChallengeProgress[];
+  completedChallenges: ChallengeProgress[];
   peaksForMap: Peak[];
 };
 
@@ -71,11 +72,12 @@ export async function searchUserPeaks(
 export async function searchUserSummits(
   client: ApiClient,
   userId: string,
-  params: { search?: string; page?: number; pageSize?: number },
+  params: { search?: string; state?: string; page?: number; pageSize?: number },
   init?: JsonRequestInit
 ): Promise<SearchUserSummitsResult> {
   const searchParams = new URLSearchParams();
   if (params.search) searchParams.set("search", params.search);
+  if (params.state) searchParams.set("state", params.state);
   searchParams.set("page", String(params.page ?? 1));
   searchParams.set("pageSize", String(params.pageSize ?? 50));
 

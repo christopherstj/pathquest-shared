@@ -6,6 +6,7 @@ export interface CurrentWeather {
     windDirection: number | null; // degrees
     humidity: number | null; // percent
     precipitation: number | null; // mm
+    precipitationProbability: number | null; // percent (best-effort, derived from hourly)
     feelsLike: number | null; // Celsius
     isDay: boolean | null;
 }

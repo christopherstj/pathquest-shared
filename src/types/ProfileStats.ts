@@ -12,6 +12,16 @@ export interface ProfileStats {
         name: string;
         elevation: number;
     } | null;
+    lowestPeak: {
+        id: string;
+        name: string;
+        elevation: number;
+    } | null;
+    mostVisitedPeak: {
+        id: string;
+        name: string;
+        visitCount: number;
+    } | null;
     challengesCompleted: number;
     totalElevationGained: number;
     statesClimbed: string[];
