@@ -13,6 +13,17 @@ export type { default as ManualPeakSummit } from "./ManualPeakSummit";
 export type { default as Peak, PublicLand } from "./Peak";
 export type { default as PeakActivity } from "./PeakActivity";
 export type { default as PeakForecast, DailyForecast } from "./PeakForecast";
+export type {
+  SummitType,
+  SummitPhoto,
+  PublicPeakPhoto,
+  PhotoUploadUrlResponse,
+  PhotoCompleteResponse,
+  PhotoUpdateResponse,
+  PhotoDeleteResponse,
+  PeakPhotosResponse,
+  SummitPhotosResponse,
+} from "./Photo";
 export type { default as ProductDisplay } from "./ProductDisplay";
 export type { ClimbingStreak, ProfileStats } from "./ProfileStats";
 export type { default as ServerActionResult } from "./ServerActionResult";

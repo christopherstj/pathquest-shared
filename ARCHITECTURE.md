@@ -87,6 +87,32 @@ Activity viewing and reprocessing endpoints.
 ### Users (`api/endpoints/users.ts`)
 User profile and settings endpoints.
 
+### Photos (`api/endpoints/photos.ts`)
+Photo upload, management, and retrieval endpoints (Stage 4).
+
+**Upload Flow:**
+- `getPhotoUploadUrl(client, { summitType, summitId, contentType?, filename? })` → `POST /photos/upload-url`
+  - Returns signed GCS URL for direct upload
+- `completePhotoUpload(client, { photoId, width?, height?, takenAt? })` → `POST /photos/:id/complete`
+  - Server generates thumbnail and updates metadata
+
+**Management:**
+- `updatePhotoCaption(client, { photoId, caption })` → `PUT /photos/:id`
+- `deletePhoto(client, photoId)` → `DELETE /photos/:id`
+
+**Retrieval:**
+- `getPeakPhotos(client, { peakId, limit? })` → `GET /peaks/:id/photos`
+  - Public photos for peak community gallery
+- `getSummitPhotos(client, { summitType, summitId })` → `GET /photos/by-summit`
+  - Owner's photos for a specific summit (used in summit report modal)
+
+**Types (`types/Photo.ts`):**
+- `SummitType` - `"activity" | "manual"`
+- `SummitPhoto` - Photo owned by current user
+- `PublicPeakPhoto` - Public photo with user attribution
+- `PhotoUploadUrlResponse`, `PhotoCompleteResponse`, `PhotoUpdateResponse`, `PhotoDeleteResponse`
+- `PeakPhotosResponse`, `SummitPhotosResponse`
+
 ## Consumption (GitHub, no npm publish)
 Both client repos depend on this package via a **git URL pinned to a commit SHA**.
 
