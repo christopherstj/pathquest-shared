@@ -7,6 +7,7 @@ import type {
   PhotoDeleteResponse,
   PeakPhotosResponse,
   SummitPhotosResponse,
+  PublicSummitPhotosResponse,
 } from "../../types";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -124,6 +125,7 @@ export async function deletePhoto(
 /**
  * Get public photos for a peak (community gallery).
  * Only returns photos from public summits by public users.
+ * Supports cursor-based pagination for efficient infinite scrolling.
  *
  * GET /peaks/:id/photos
  */
@@ -131,11 +133,17 @@ export async function getPeakPhotos(
   client: ApiClient,
   params: {
     peakId: string;
+    /** ISO timestamp cursor for pagination. Omit for first page. */
+    cursor?: string;
+    /** Max photos per page (default 20, max 100). */
     limit?: number;
   },
   init?: JsonRequestInit
 ): Promise<PeakPhotosResponse> {
   const searchParams = new URLSearchParams();
+  if (params.cursor != null) {
+    searchParams.set("cursor", params.cursor);
+  }
   if (params.limit != null) {
     searchParams.set("limit", String(params.limit));
   }
@@ -165,6 +173,34 @@ export async function getSummitPhotos(
   searchParams.set("summitId", params.summitId);
   return client.fetchJson<SummitPhotosResponse>(
     `/photos/by-summit?${searchParams.toString()}`,
+    init
+  );
+}
+
+/**
+ * Get public photos for a specific summit.
+ * Used in the community section to show photos on public summit cards.
+ * No authentication required - only returns photos from public summits by public users.
+ *
+ * GET /photos/by-summit/public
+ */
+export async function getPublicSummitPhotos(
+  client: ApiClient,
+  params: {
+    summitType: SummitType;
+    summitId: string;
+    limit?: number;
+  },
+  init?: JsonRequestInit
+): Promise<PublicSummitPhotosResponse> {
+  const searchParams = new URLSearchParams();
+  searchParams.set("summitType", params.summitType);
+  searchParams.set("summitId", params.summitId);
+  if (params.limit != null) {
+    searchParams.set("limit", String(params.limit));
+  }
+  return client.fetchJson<PublicSummitPhotosResponse>(
+    `/photos/by-summit/public?${searchParams.toString()}`,
     init
   );
 }

@@ -9,6 +9,7 @@ import type {
   PeakActivity,
   PeakForecast,
   Summit,
+  UnconfirmedSummit,
 } from "../../types";
 
 export type PeakDetailsPublicResponse = {
@@ -270,4 +271,122 @@ export async function getPeakForecast(
   init?: JsonRequestInit
 ): Promise<PeakForecast> {
   return await client.fetchJson<PeakForecast>(`/peaks/${encodeURIComponent(peakId)}/forecast`, init);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Summit Review (Unconfirmed Summits)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Get unconfirmed summits that need user review.
+ * These are low-confidence summits detected from Strava activities.
+ *
+ * GET /peaks/summits/unconfirmed
+ */
+export async function getUnconfirmedSummits(
+  client: ApiClient,
+  params?: { limit?: number },
+  init?: JsonRequestInit
+): Promise<UnconfirmedSummit[]> {
+  const searchParams = new URLSearchParams();
+  if (params?.limit != null) {
+    searchParams.set("limit", String(params.limit));
+  }
+  const qs = searchParams.toString();
+  return await client.fetchJson<UnconfirmedSummit[]>(
+    `/peaks/summits/unconfirmed${qs ? `?${qs}` : ""}`,
+    init
+  );
+}
+
+/**
+ * Confirm a single unconfirmed summit.
+ * Changes the summit status from 'unconfirmed' to 'user_confirmed'.
+ *
+ * POST /peaks/summits/:id/confirm
+ */
+export async function confirmSummit(
+  client: ApiClient,
+  summitId: string,
+  init?: JsonRequestInit
+): Promise<{ message: string }> {
+  return await client.fetchJson<{ message: string }>(
+    `/peaks/summits/${encodeURIComponent(summitId)}/confirm`,
+    {
+      ...init,
+      method: "POST",
+    }
+  );
+}
+
+/**
+ * Deny a single unconfirmed summit.
+ * Changes the summit status from 'unconfirmed' to 'denied'.
+ *
+ * POST /peaks/summits/:id/deny
+ */
+export async function denySummit(
+  client: ApiClient,
+  summitId: string,
+  init?: JsonRequestInit
+): Promise<{ message: string }> {
+  return await client.fetchJson<{ message: string }>(
+    `/peaks/summits/${encodeURIComponent(summitId)}/deny`,
+    {
+      ...init,
+      method: "POST",
+    }
+  );
+}
+
+/**
+ * Confirm all unconfirmed summits at once.
+ * Useful for users who trust the detection algorithm.
+ *
+ * POST /peaks/summits/confirm-all
+ */
+export async function confirmAllSummits(
+  client: ApiClient,
+  init?: JsonRequestInit
+): Promise<{ message: string; count: number }> {
+  return await client.fetchJson<{ message: string; count: number }>(
+    `/peaks/summits/confirm-all`,
+    {
+      ...init,
+      method: "POST",
+    }
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Public Community Data (No Auth Required)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Recent public summit from the community feed.
+ * Includes user and peak info for display.
+ */
+export type RecentPublicSummit = Summit & {
+  user_id?: string;
+  user_name?: string;
+  peak_id: string;
+  peak_name: string;
+};
+
+/**
+ * Get recent public summits across the entire community.
+ * Public endpoint - no auth required.
+ * 
+ * GET /peaks/summits/public/recent
+ */
+export async function getRecentPublicSummits(
+  client: ApiClient,
+  params?: { limit?: number },
+  init?: JsonRequestInit
+): Promise<RecentPublicSummit[]> {
+  const limit = params?.limit ?? 5;
+  return await client.fetchJson<RecentPublicSummit[]>(
+    `/peaks/summits/public/recent?limit=${encodeURIComponent(String(limit))}`,
+    init
+  );
 }

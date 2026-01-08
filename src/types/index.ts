@@ -23,6 +23,8 @@ export type {
   PhotoDeleteResponse,
   PeakPhotosResponse,
   SummitPhotosResponse,
+  PublicSummitPhoto,
+  PublicSummitPhotosResponse,
 } from "./Photo";
 export type { default as ProductDisplay } from "./ProductDisplay";
 export type { ClimbingStreak, ProfileStats } from "./ProfileStats";

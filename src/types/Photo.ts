@@ -63,9 +63,14 @@ export interface PhotoDeleteResponse {
 
 /**
  * Response from GET /peaks/:id/photos.
+ * Supports cursor-based pagination for efficient infinite scrolling.
  */
 export interface PeakPhotosResponse {
     photos: PublicPeakPhoto[];
+    /** ISO timestamp cursor for fetching the next page. Null if no more pages. */
+    nextCursor: string | null;
+    /** Total count of photos (only returned on first page for efficiency). */
+    totalCount: number;
 }
 
 /**
@@ -73,5 +78,25 @@ export interface PeakPhotosResponse {
  */
 export interface SummitPhotosResponse {
     photos: SummitPhoto[];
+}
+
+/**
+ * A public photo for a summit visible in the community section.
+ * Returned by GET /photos/by-summit/public.
+ * Does not include user attribution (user info is on the summit card itself).
+ */
+export interface PublicSummitPhoto {
+    id: string;
+    thumbnailUrl: string;
+    fullUrl: string;
+    caption: string | null;
+    takenAt: string | null;
+}
+
+/**
+ * Response from GET /photos/by-summit/public.
+ */
+export interface PublicSummitPhotosResponse {
+    photos: PublicSummitPhoto[];
 }
 

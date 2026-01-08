@@ -216,4 +216,20 @@ export async function getFavoriteChallenges(
   return searchChallenges(client, { favoritesOnly: true }, init);
 }
 
+/**
+ * Get popular challenges (public endpoint, no auth required).
+ * Returns challenges ordered by hybrid popularity ranking.
+ */
+export async function getPopularChallenges(
+  client: ApiClient,
+  params?: { limit?: number },
+  init?: JsonRequestInit
+): Promise<Challenge[]> {
+  const limit = params?.limit ?? 5;
+  return await client.fetchJson<Challenge[]>(
+    `/challenges/popular?limit=${encodeURIComponent(String(limit))}`,
+    init
+  );
+}
+
 

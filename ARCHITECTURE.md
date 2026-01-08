@@ -101,17 +101,23 @@ Photo upload, management, and retrieval endpoints (Stage 4).
 - `deletePhoto(client, photoId)` → `DELETE /photos/:id`
 
 **Retrieval:**
-- `getPeakPhotos(client, { peakId, limit? })` → `GET /peaks/:id/photos`
-  - Public photos for peak community gallery
+- `getPeakPhotos(client, { peakId, cursor?, limit? })` → `GET /peaks/:id/photos`
+  - Public photos for peak community gallery with cursor-based pagination
+  - Returns `{ photos, nextCursor, totalCount }`
 - `getSummitPhotos(client, { summitType, summitId })` → `GET /photos/by-summit`
   - Owner's photos for a specific summit (used in summit report modal)
+- `getPublicSummitPhotos(client, { summitType, summitId, limit? })` → `GET /photos/by-summit/public`
+  - Public photos for a specific summit (used in community section)
 
 **Types (`types/Photo.ts`):**
 - `SummitType` - `"activity" | "manual"`
 - `SummitPhoto` - Photo owned by current user
 - `PublicPeakPhoto` - Public photo with user attribution
 - `PhotoUploadUrlResponse`, `PhotoCompleteResponse`, `PhotoUpdateResponse`, `PhotoDeleteResponse`
-- `PeakPhotosResponse`, `SummitPhotosResponse`
+- `PeakPhotosResponse` - Paginated response with `photos`, `nextCursor`, `totalCount`
+- `SummitPhotosResponse`
+- `PublicSummitPhoto` - Photo for public summit cards (no user attribution)
+- `PublicSummitPhotosResponse`
 
 ## Consumption (GitHub, no npm publish)
 Both client repos depend on this package via a **git URL pinned to a commit SHA**.

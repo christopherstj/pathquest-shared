@@ -135,6 +135,7 @@ export type UpdateUserData = {
   location_coords?: [number, number] | null;
   update_description?: boolean;
   is_public?: boolean;
+  units?: "imperial" | "metric";
 };
 
 export async function updateUser(
