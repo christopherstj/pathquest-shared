@@ -35,6 +35,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
+    "@pathquest/shared": "github:christopherstj/pathquest-shared#bf010e65b47273d3b71f17724371bcb018560aa9",
     "stripe": "^17.4.0"
   },
   "devDependencies": {
