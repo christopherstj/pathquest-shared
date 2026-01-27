@@ -41,5 +41,13 @@ export type { UnconfirmedSummit } from "./UnconfirmedSummit";
 export type { default as User } from "./User";
 export type { default as UserChallengeFavorite } from "./UserChallengeFavorite";
 export type { UserPeakWithSummitCount } from "./UserPeakWithSummitCount";
-
+export type {
+  RelevancyFactors,
+  UnifiedSearchResultBase,
+  PeakSearchResult,
+  ChallengeSearchResult,
+  UnifiedSearchResult,
+  UnifiedSearchResponse,
+  UnifiedSearchParams,
+} from "./UnifiedSearchResult";
 

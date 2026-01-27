@@ -6,5 +6,5 @@ export * from "./users";
 export * from "./dashboard";
 export * from "./photos";
 export * from "./utils";
-
+export * from "./search";
 

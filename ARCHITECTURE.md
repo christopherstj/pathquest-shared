@@ -119,6 +119,24 @@ Photo upload, management, and retrieval endpoints (Stage 4).
 - `PublicSummitPhoto` - Photo for public summit cards (no user attribution)
 - `PublicSummitPhotosResponse`
 
+### Search (`api/endpoints/search.ts`)
+Unified relevancy-based search endpoints.
+
+- `unifiedSearch(client, params)` → `GET /api/search`
+  - **Params**: `{ query, lat?, lng?, bounds?, limit?, includePeaks?, includeChallenges? }`
+  - **Returns**: `UnifiedSearchResponse` with ranked results and totals
+  - Combines peaks and challenges into a single relevancy-ranked result set
+  - Supports geographic proximity, text match quality, and public popularity scoring
+  - Viewport bounds boost results visible on the current map
+
+**Types (`types/UnifiedSearchResult.ts`):**
+- `RelevancyFactors` - Individual score components (textMatch, geoProximity, publicPopularity, personalRelevance, challengeMembership)
+- `PeakSearchResult` - Peak with relevancy score and factors
+- `ChallengeSearchResult` - Challenge with relevancy score and factors
+- `UnifiedSearchResult` - Union of peak/challenge results
+- `UnifiedSearchResponse` - Response with results and totals
+- `UnifiedSearchParams` - Search query parameters
+
 ## Consumption (GitHub, no npm publish)
 Both client repos depend on this package via a **git URL pinned to a commit SHA**.
 

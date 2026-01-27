@@ -99,4 +99,3 @@ export interface PublicSummitPhoto {
 export interface PublicSummitPhotosResponse {
     photos: PublicSummitPhoto[];
 }
-
