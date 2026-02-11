@@ -1,19 +1,11 @@
+import type { CurrentWeather } from "./CurrentWeather";
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Weather Forecast
 // ─────────────────────────────────────────────────────────────────────────────
 
-export interface WeatherForecastCurrent {
-    temperature: number | null; // Celsius
-    feelsLike: number | null; // Celsius
-    weatherCode: number | null;
-    windSpeed: number | null; // km/h
-    windDirection: number | null; // degrees
-    humidity: number | null; // percent
-    cloudCover: number | null; // percent
-    precipitation: number | null; // mm
-    precipitationProbability: number | null; // percent
-    isDay: boolean | null;
-}
+/** @deprecated Use CurrentWeather directly */
+export type WeatherForecastCurrent = CurrentWeather;
 
 export interface WeatherForecastDaily {
     date: string;
@@ -34,7 +26,7 @@ export interface WeatherForecastDaily {
 }
 
 export interface WeatherForecast {
-    current: WeatherForecastCurrent;
+    current: CurrentWeather;
     daily: WeatherForecastDaily[];
     timezone: string | null;
 }
