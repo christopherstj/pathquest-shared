@@ -78,6 +78,10 @@ Phase 2 additions (used by native Peak Detail):
 - `getPeakActivity(client, peakId)` → `GET /api/peaks/:id/activity`
 - `getPeakPublicSummitsCursor(client, { peakId, cursor?, limit? })` → `GET /api/peaks/:id/public-summits` (cursor pagination; returns `{ summits, nextCursor, totalCount }`)
 
+Conditions endpoints (Phase 1 — Conditions Data Layer):
+- `getPeakConditions(client, peakId)` → `GET /api/peaks/:id/conditions` (returns `PeakConditions` with weather, recent weather, summit window)
+- `getPeakSummitWindow(client, peakId)` → `GET /api/peaks/:id/summit-window` (returns `SummitWindow` with 7-day scores)
+
 ### Challenges (`api/endpoints/challenges.ts`)
 Challenge browsing and progress tracking endpoints.
 
@@ -217,7 +221,8 @@ All 21 type definition files should be moved as-is to `pathquest-shared/src/type
 - `ProfileStats.ts` - User profile statistics
 - `DashboardStats.ts` - Dashboard quick stats
 - `PeakActivity.ts` - Peak activity indicators (recent summits)
-- `CurrentWeather.ts` - Weather data structure
+- `CurrentWeather.ts` - Current weather data structure (shared with conditions)
+- `PeakConditions.ts` - Full conditions types: `PeakConditions`, `WeatherForecast`, `WeatherForecastDaily`, `RecentWeather`, `RecentWeatherDay`, `SummitWindow`, `SummitWindowDay`, `SummitWindowFactors`, `SummitWindowLabel`. Note: `WeatherForecastCurrent` is a deprecated alias for `CurrentWeather`
 - `UnconfirmedSummit.ts` - Summit needing user review
 
 #### Other Types
