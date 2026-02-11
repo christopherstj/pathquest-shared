@@ -3,6 +3,11 @@
 
 export type { default as Activity } from "./Activity";
 export type { ActivityStart } from "./ActivityStart";
+export type {
+  default as PublicActivity,
+  PublicActivityUser,
+  PublicActivitySummit,
+} from "./PublicActivity";
 export type { default as AscentDetail } from "./AscentDetail";
 export type { default as Challenge } from "./Challenge";
 export type { default as ChallengeProgress } from "./ChallengeProgress";
@@ -50,4 +55,17 @@ export type {
   UnifiedSearchResponse,
   UnifiedSearchParams,
 } from "./UnifiedSearchResult";
+export type { UnreviewedActivity } from "./UnreviewedActivity";
+export type {
+  PeakConditions,
+  WeatherForecast,
+  WeatherForecastCurrent,
+  WeatherForecastDaily,
+  RecentWeather,
+  RecentWeatherDay,
+  SummitWindow,
+  SummitWindowDay,
+  SummitWindowLabel,
+  SummitWindowFactors,
+} from "./PeakConditions";
 

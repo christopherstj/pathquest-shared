@@ -1,5 +1,5 @@
 import type { ApiClient, JsonRequestInit } from "../client";
-import type { Activity, ActivityStart, SummitWithPeak } from "../../types";
+import type { Activity, ActivityStart, SummitWithPeak, PublicActivity, UnreviewedActivity } from "../../types";
 
 export type ActivityDetailsResponse = {
   activity: Activity;
@@ -91,4 +91,53 @@ export async function getActivityStarts(
   return await client.fetchJson<ActivityStart[]>(`/activities/search${qs ? `?${qs}` : ""}`, init);
 }
 
+export interface UpdateActivityReportInput {
+  tripReport?: string;
+  tripReportIsPublic?: boolean;
+  displayTitle?: string;
+  conditionTags?: string[];
+}
+
+export async function updateActivityReport(
+  client: ApiClient,
+  activityId: string,
+  data: UpdateActivityReportInput,
+  init?: JsonRequestInit
+): Promise<Activity> {
+  return await client.fetchJson<Activity>(`/activities/${encodeURIComponent(activityId)}/report`, {
+    ...init,
+    method: "PUT",
+    json: data,
+  });
+}
+
+export async function dismissActivityReview(
+  client: ApiClient,
+  activityId: string,
+  init?: JsonRequestInit
+): Promise<{ success: boolean }> {
+  return await client.fetchJson<{ success: boolean }>(`/activities/${encodeURIComponent(activityId)}/dismiss`, {
+    ...init,
+    method: "POST",
+  });
+}
+
+export async function getPublicActivity(
+  client: ApiClient,
+  activityId: string,
+  init?: JsonRequestInit
+): Promise<PublicActivity> {
+  return await client.fetchJson<PublicActivity>(`/activities/${encodeURIComponent(activityId)}/public`, init);
+}
+
+export async function getUnreviewedActivities(
+  client: ApiClient,
+  params?: { limit?: number },
+  init?: JsonRequestInit
+): Promise<UnreviewedActivity[]> {
+  const searchParams = new URLSearchParams();
+  if (params?.limit) searchParams.set("limit", String(params.limit));
+  const qs = searchParams.toString();
+  return await client.fetchJson<UnreviewedActivity[]>(`/activities/unreviewed${qs ? `?${qs}` : ""}`, init);
+}
 

@@ -7,8 +7,10 @@ import type {
   ManualPeakSummit,
   Peak,
   PeakActivity,
+  PeakConditions,
   PeakForecast,
   Summit,
+  SummitWindow,
   UnconfirmedSummit,
 } from "../../types";
 
@@ -373,10 +375,48 @@ export type RecentPublicSummit = Summit & {
   peak_name: string;
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Peak Conditions (Enhanced Weather + Summit Window)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Get full conditions for a peak (weather, recent weather, summit window).
+ * Public endpoint - no auth required. Data is cached and refreshed every 2hr.
+ *
+ * GET /peaks/:id/conditions
+ */
+export async function getPeakConditions(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<PeakConditions> {
+  return await client.fetchJson<PeakConditions>(
+    `/peaks/${encodeURIComponent(peakId)}/conditions`,
+    init
+  );
+}
+
+/**
+ * Get 7-day summit window scoring for a peak.
+ * Public endpoint - no auth required.
+ *
+ * GET /peaks/:id/summit-window
+ */
+export async function getPeakSummitWindow(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<SummitWindow> {
+  return await client.fetchJson<SummitWindow>(
+    `/peaks/${encodeURIComponent(peakId)}/summit-window`,
+    init
+  );
+}
+
 /**
  * Get recent public summits across the entire community.
  * Public endpoint - no auth required.
- * 
+ *
  * GET /peaks/summits/public/recent
  */
 export async function getRecentPublicSummits(

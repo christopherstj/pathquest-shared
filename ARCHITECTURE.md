@@ -82,7 +82,12 @@ Phase 2 additions (used by native Peak Detail):
 Challenge browsing and progress tracking endpoints.
 
 ### Activities (`api/endpoints/activities.ts`)
-Activity viewing and reprocessing endpoints.
+Activity viewing, reprocessing, and trip report endpoints.
+
+Trip report endpoints (added for activity-first trip reports):
+- `updateActivityReport(client, activityId, { tripReport?, tripReportIsPublic?, displayTitle?, conditionTags? })` → `PUT /api/activities/:id/report` (auth required, owner only). Automatically sets `is_reviewed = TRUE`. Returns updated activity.
+- `dismissActivityReview(client, activityId)` → `POST /api/activities/:id/dismiss` (auth required, owner only). Sets `is_reviewed = TRUE` without modifying trip report fields. Returns `{ success: boolean }`.
+- `getPublicActivity(client, activityId)` → `GET /api/activities/:id/public` (no auth). Returns PathQuest-owned activity data only (no Strava data): display_title, trip_report (if public), condition_tags (if public), start_time, timezone, user info (if public), and summits with peak data.
 
 ### Users (`api/endpoints/users.ts`)
 User profile and settings endpoints.
@@ -190,7 +195,8 @@ This section documents which files from `pathquest-frontend/frontend/pathquest/s
 All 21 type definition files should be moved as-is to `pathquest-shared/src/types/`:
 
 #### Core Domain Types
-- `Activity.ts` - Strava activity data structure
+- `Activity.ts` - Strava activity data structure (includes trip report fields: `trip_report`, `trip_report_is_public`, `display_title`, `condition_tags`, `is_reviewed`)
+- `PublicActivity.ts` - Public activity data (PathQuest-owned only, no Strava data). Includes `PublicActivityUser` and `PublicActivitySummit` types.
 - `ActivityStart.ts` - Activity start location
 - `Peak.ts` - Mountain peak catalog entry
 - `Challenge.ts` - Challenge definition
