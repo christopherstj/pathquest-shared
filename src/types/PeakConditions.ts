@@ -71,12 +71,22 @@ export interface SummitWindowFactors {
     cloudCover: number; // 0-100
 }
 
+export type HazardType = "avalanche" | "air_quality" | "fire";
+export type HazardSeverity = "caution" | "warning" | "danger";
+
+export interface HazardFlag {
+    type: HazardType;
+    severity: HazardSeverity;
+    message: string;
+}
+
 export interface SummitWindowDay {
     date: string;
     score: number; // 0-100
     label: SummitWindowLabel;
     factors: SummitWindowFactors;
     summary: string; // e.g. "Clear with light winds"
+    hazards?: HazardFlag[]; // present when non-weather hazards affect this day
 }
 
 export interface SummitWindow {
