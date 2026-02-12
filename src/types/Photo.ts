@@ -91,9 +91,7 @@ export interface PublicSummitPhoto {
     fullUrl: string;
     caption: string | null;
     takenAt: string | null;
-}
-
-/**
+}/**
  * Response from GET /photos/by-summit/public.
  */
 export interface PublicSummitPhotosResponse {

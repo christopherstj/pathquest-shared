@@ -81,6 +81,7 @@ Phase 2 additions (used by native Peak Detail):
 Conditions endpoints (Phase 1 — Conditions Data Layer):
 - `getPeakConditions(client, peakId)` → `GET /api/peaks/:id/conditions` (returns `PeakConditions` with weather, recent weather, summit window)
 - `getPeakSummitWindow(client, peakId)` → `GET /api/peaks/:id/summit-window` (returns `SummitWindow` with 7-day scores)
+- `getPeakConditionsHistory(client, peakId, { range?, sources? })` → `GET /api/peaks/:id/conditions/history` (returns `PeakConditionsHistory` with time-series data grouped by source station/site; see Conditions endpoints section for full details)
 
 ### Challenges (`api/endpoints/challenges.ts`)
 Challenge browsing and progress tracking endpoints.
@@ -127,6 +128,69 @@ Photo upload, management, and retrieval endpoints (Stage 4).
 - `SummitPhotosResponse`
 - `PublicSummitPhoto` - Photo for public summit cards (no user attribution)
 - `PublicSummitPhotosResponse`
+
+### Trails (`api/endpoints/trails.ts`)
+Geographic trail data endpoints returning GeoJSON FeatureCollections within a bounding box. No auth required.
+
+- `searchTrails(client, { nwLat, nwLng, seLat, seLng })` -> `GET /api/trails` (trails as LineString features)
+- `searchTrailheads(client, { nwLat, nwLng, seLat, seLng })` -> `GET /api/trails/trailheads` (trailheads as Point features)
+- `searchAccessRoads(client, { nwLat, nwLng, seLat, seLng })` -> `GET /api/trails/access-roads` (access roads as LineString features)
+
+**Types (`types/Trail.ts`):**
+- `Trail` - Trail with `id`, `osmId`, `name`, `trailType`, `surface`, `difficulty`
+- `Trailhead` - Trailhead with `id`, `osmId`, `name`, `lat`, `lng`
+- `AccessRoad` - Access road with `id`, `osmId`, `name`, `roadType`, `surface`, `seasonal`
+- `BboxParams` - Bounding box query params: `nwLat`, `nwLng`, `seLat`, `seLng`
+
+### Conditions (`api/endpoints/conditions.ts`)
+Conditions retrieval endpoints for map layers, individual source detail pages, area conditions summaries, and peak conditions history. All public (no auth required).
+
+**Map Layer Bbox Endpoints** (return GeoJSON FeatureCollections):
+- `getMapSnotel(client, bbox)` -> `GET /api/map/snotel?bbox=` (SNOTEL stations as Point features with snow depth, SWE, temperature)
+- `getMapStreamflow(client, bbox)` -> `GET /api/map/streamflow?bbox=` (USGS gauges as Point features with discharge, gage height, status)
+- `getMapAqi(client, bbox)` -> `GET /api/map/aqi?bbox=` (AQI monitors as Point features with AQI value, category, smoke impact)
+- `getMapAlerts(client, bbox)` -> `GET /api/map/alerts?bbox=` (NWS zones as Polygon features with active alerts array)
+
+**Area Conditions Summaries** (aggregated across all peaks in a region):
+- `getChallengeConditions(client, challengeId)` -> `GET /api/challenges/:challengeId/conditions` (returns `ChallengeConditions`)
+- `getPublicLandConditions(client, objectId)` -> `GET /api/map/public-lands/:objectId/conditions` (returns `PublicLandConditions`)
+
+**Individual Source Detail** (detail pages with current data, history, and nearby peaks):
+- `getSnotelStationDetail(client, stationId, { history? })` -> `GET /api/conditions/snotel/:stationId` (returns `SnotelStationDetail`)
+- `getStreamGaugeDetail(client, siteId, { history? })` -> `GET /api/conditions/streamflow/:siteId` (returns `StreamGaugeDetail`)
+- `getAqiSiteDetail(client, siteId, { history? })` -> `GET /api/conditions/aqi/:siteId` (returns `AqiSiteDetail`)
+- `getAvalancheZoneDetail(client, centerId, zoneId)` -> `GET /api/conditions/avalanche/:centerId/:zoneId` (returns `AvalancheZoneDetail`)
+
+**Peak Conditions History** (time-series data for a peak's nearby sources):
+- `getPeakConditionsHistory(client, peakId, { range?, sources? })` -> `GET /api/peaks/:peakId/conditions/history` (returns `PeakConditionsHistory`)
+
+**Types (`types/ConditionsApi.ts`):**
+
+Map layer GeoJSON property types:
+- `SnotelMapProperties` - Properties for SNOTEL map features
+- `StreamflowMapProperties` - Properties for streamflow map features
+- `AqiMapProperties` - Properties for AQI map features
+- `AlertMapAlert` - Individual alert within a zone
+- `AlertMapProperties` - Properties for NWS alert zone features
+
+Source detail types:
+- `SourceNearbyPeak` - Nearby peak reference (`id`, `name`, `distanceM`)
+- `SnotelStationDetail` - Full station detail with current data, history, and nearby peaks
+- `SnotelHistoryRecord` - Daily SNOTEL snapshot (snow depth, SWE, temps, precip)
+- `StreamGaugeDetail` - Full gauge detail with current readings, history, and nearby peaks
+- `StreamflowHistoryRecord` - Daily streamflow snapshot (discharge, gage height)
+- `AqiSiteDetail` - Full AQI site detail with current readings and history
+- `AqiHistoryRecord` - Daily AQI snapshot (AQI, PM2.5, ozone, category)
+- `AvalancheZoneDetail` - Full zone forecast with danger, problems, and nearby peaks
+
+Area conditions types:
+- `AreaConditionsSummary` - Aggregated conditions across multiple peaks (weather, summit window, avalanche, NWS alerts, AQI, fire, SNOTEL, streamflow)
+- `ChallengeConditions` - Extends `AreaConditionsSummary` with `challengeId`
+- `PublicLandConditions` - Extends `AreaConditionsSummary` with `publicLandId`, `publicLandName`, `designationType`
+
+History types:
+- `ConditionsHistoryRange` - `"30d" | "90d" | "1y"`
+- `PeakConditionsHistory` - Grouped historical data per source station/site for snotel, streamflow, and AQI
 
 ### Search (`api/endpoints/search.ts`)
 Unified relevancy-based search endpoints.
@@ -224,6 +288,12 @@ All 21 type definition files should be moved as-is to `pathquest-shared/src/type
 - `CurrentWeather.ts` - Current weather data structure (shared with conditions)
 - `PeakConditions.ts` - Full conditions types: `PeakConditions`, `WeatherForecast`, `WeatherForecastDaily`, `RecentWeather`, `RecentWeatherDay`, `SummitWindow`, `SummitWindowDay`, `SummitWindowFactors`, `SummitWindowLabel`. Note: `WeatherForecastCurrent` is a deprecated alias for `CurrentWeather`
 - `UnconfirmedSummit.ts` - Summit needing user review
+
+#### Conditions Types
+- `ConditionsApi.ts` - All conditions retrieval types: map layer GeoJSON properties (`SnotelMapProperties`, `StreamflowMapProperties`, `AqiMapProperties`, `AlertMapProperties`), source detail types (`SnotelStationDetail`, `StreamGaugeDetail`, `AqiSiteDetail`, `AvalancheZoneDetail`), area conditions summary (`AreaConditionsSummary`, `ChallengeConditions`, `PublicLandConditions`), peak conditions history (`PeakConditionsHistory`, `ConditionsHistoryRange`), and shared types (`SourceNearbyPeak`, history record types)
+
+#### Geographic/Trail Types
+- `Trail.ts` - Trail, Trailhead, and AccessRoad types for trail network data (sourced from OSM)
 
 #### Other Types
 - `StravaCreds.ts` - Strava OAuth credentials (request/response)
