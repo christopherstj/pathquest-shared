@@ -334,6 +334,7 @@ export interface GearItem {
 export interface GearRecommendations {
     items: GearItem[];
     summary: string | null;
+    conditionsSummary: string | null;
     updatedAt: string | null;
 }
 
