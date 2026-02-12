@@ -7,4 +7,6 @@ export * from "./dashboard";
 export * from "./photos";
 export * from "./utils";
 export * from "./search";
+export * from "./trails";
+export * from "./conditions";
 
