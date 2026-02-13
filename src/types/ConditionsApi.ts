@@ -198,6 +198,7 @@ export interface AreaConditionsSummary {
         closestFireKm: number;
         totalFiresWithin50km: number;
         smokeRisk: string;
+        fires?: { incidentId: string; name: string; acres: number | null; percentContained: number | null; distanceKm: number }[];
     } | null;
     snotel: {
         maxSnowDepthIn: number;
