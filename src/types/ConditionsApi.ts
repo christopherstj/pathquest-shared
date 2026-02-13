@@ -153,6 +153,7 @@ export interface AvalancheZoneDetail {
     nearbyPeaks: SourceNearbyPeak[];
     geometry?: any;
     centroid?: [number, number];
+    affectedPublicLands?: { objectId: string; name: string; designationType: string; manager: string; acres: number | null }[];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

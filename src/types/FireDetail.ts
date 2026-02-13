@@ -1,3 +1,11 @@
+export interface AffectedPublicLand {
+    objectId: string;
+    name: string;
+    designationType: string;
+    manager: string;
+    acres: number | null;
+}
+
 export interface FireDetail {
     incidentId: string;
     name: string;
@@ -10,4 +18,5 @@ export interface FireDetail {
     centroid: [number, number];
     geometry: any;
     nearbyPeaks: { id: string; name: string; distanceKm: number }[];
+    affectedPublicLands: AffectedPublicLand[];
 }
