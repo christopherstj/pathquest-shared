@@ -126,4 +126,6 @@ export type {
   PeakConditionsHistory,
 } from "./ConditionsApi";
 export type { SnowPointData } from "./SnowPoint";
+export type { FireDetail } from "./FireDetail";
+export type { PublicLandDetail, PublicLandPeaksResult } from "./PublicLandDetail";
 

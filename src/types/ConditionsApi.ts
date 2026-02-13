@@ -151,6 +151,8 @@ export interface AvalancheZoneDetail {
     publishedAt: string | null;
     expiresAt: string | null;
     nearbyPeaks: SourceNearbyPeak[];
+    geometry?: any;
+    centroid?: [number, number];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

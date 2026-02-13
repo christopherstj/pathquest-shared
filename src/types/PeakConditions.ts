@@ -255,6 +255,7 @@ export interface AirQuality {
 export type SmokeRisk = "none" | "possible" | "likely" | "active";
 
 export interface NearbyFire {
+    incidentId?: string;
     name: string;
     acres: number | null;
     containmentPercent: number | null;

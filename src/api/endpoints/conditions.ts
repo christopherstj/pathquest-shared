@@ -10,6 +10,8 @@ import type {
     ConditionsHistoryRange,
 } from "../../types/ConditionsApi";
 import type { SnowPointData } from "../../types/SnowPoint";
+import type { FireDetail } from "../../types/FireDetail";
+import type { PublicLandDetail, PublicLandPeaksResult } from "../../types/PublicLandDetail";
 
 /** Minimal GeoJSON FeatureCollection shape (avoids @types/geojson dependency) */
 interface FeatureCollection {
@@ -208,6 +210,52 @@ export async function getSnowPoint(
     searchParams.set("lng", String(params.lng));
     return await client.fetchJson<SnowPointData>(
         `/snow/point?${searchParams.toString()}`,
+        init
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fire Detail
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function getFireDetail(
+    client: ApiClient,
+    incidentId: string,
+    init?: JsonRequestInit
+): Promise<FireDetail> {
+    return await client.fetchJson<FireDetail>(
+        `/fires/${encodeURIComponent(incidentId)}`,
+        init
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Public Land Detail + Peaks
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function getPublicLandDetail(
+    client: ApiClient,
+    objectId: string,
+    init?: JsonRequestInit
+): Promise<PublicLandDetail> {
+    return await client.fetchJson<PublicLandDetail>(
+        `/map/public-lands/${encodeURIComponent(objectId)}`,
+        init
+    );
+}
+
+export async function getPublicLandPeaks(
+    client: ApiClient,
+    objectId: string,
+    params?: { page?: number; limit?: number },
+    init?: JsonRequestInit
+): Promise<PublicLandPeaksResult> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set("page", String(params.page));
+    if (params?.limit) searchParams.set("limit", String(params.limit));
+    const qs = searchParams.toString();
+    return await client.fetchJson<PublicLandPeaksResult>(
+        `/map/public-lands/${encodeURIComponent(objectId)}/peaks${qs ? `?${qs}` : ""}`,
         init
     );
 }

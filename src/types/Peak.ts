@@ -1,6 +1,7 @@
 import Summit from "./Summit";
 
 export interface PublicLand {
+    objectId?: string;
     name: string;
     type: string;
     typeName: string;
