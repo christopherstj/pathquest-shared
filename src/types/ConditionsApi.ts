@@ -188,6 +188,7 @@ export interface AreaConditionsSummary {
         totalActiveAlerts: number;
         maxSeverity: string;
         events: string[];
+        alerts?: { event: string; severity: string; headline: string | null }[];
     } | null;
     airQuality: {
         worstAqi: number;
