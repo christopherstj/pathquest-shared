@@ -58,6 +58,10 @@ export interface SourceNearbyPeak {
     id: string;
     name: string;
     distanceM: number;
+    elevation?: number | null;
+    state?: string | null;
+    public_summits?: number;
+    summits?: number;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
