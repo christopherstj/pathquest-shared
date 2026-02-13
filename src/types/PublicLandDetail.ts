@@ -15,6 +15,7 @@ export interface PublicLandPeaksResult {
         state: string | null;
         location_coords: [number, number] | null;
         public_summits: number;
+        summits: number;
     }>;
     total: number;
     page: number;
