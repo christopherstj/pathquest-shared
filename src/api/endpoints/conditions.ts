@@ -9,6 +9,7 @@ import type {
     PeakConditionsHistory,
     ConditionsHistoryRange,
 } from "../../types/ConditionsApi";
+import type { SnowPointData } from "../../types/SnowPoint";
 
 /** Minimal GeoJSON FeatureCollection shape (avoids @types/geojson dependency) */
 interface FeatureCollection {
@@ -167,6 +168,24 @@ export async function getPeakConditionsHistory(
     const qs = searchParams.toString();
     return await client.fetchJson<PeakConditionsHistory>(
         `/peaks/${encodeURIComponent(peakId)}/conditions/history${qs ? `?${qs}` : ""}`,
+        init
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Snow Analysis (NOHRSC)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function getSnowPoint(
+    client: ApiClient,
+    params: { lat: number; lng: number },
+    init?: JsonRequestInit
+): Promise<SnowPointData> {
+    const searchParams = new URLSearchParams();
+    searchParams.set("lat", String(params.lat));
+    searchParams.set("lng", String(params.lng));
+    return await client.fetchJson<SnowPointData>(
+        `/snow/point?${searchParams.toString()}`,
         init
     );
 }

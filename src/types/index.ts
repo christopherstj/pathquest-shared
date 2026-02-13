@@ -125,4 +125,5 @@ export type {
   ConditionsHistoryRange,
   PeakConditionsHistory,
 } from "./ConditionsApi";
+export type { SnowPointData } from "./SnowPoint";
 
