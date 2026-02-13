@@ -65,6 +65,28 @@ export async function getMapAlerts(
     );
 }
 
+export async function getMapAvalanches(
+    client: ApiClient,
+    bbox: string,
+    init?: JsonRequestInit
+): Promise<FeatureCollection> {
+    return await client.fetchJson<FeatureCollection>(
+        `/map/avalanche?bbox=${encodeURIComponent(bbox)}`,
+        init
+    );
+}
+
+export async function getMapFires(
+    client: ApiClient,
+    bbox: string,
+    init?: JsonRequestInit
+): Promise<FeatureCollection> {
+    return await client.fetchJson<FeatureCollection>(
+        `/map/fires?bbox=${encodeURIComponent(bbox)}`,
+        init
+    );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Area Conditions (Challenge + Public Land)
 // ─────────────────────────────────────────────────────────────────────────────
