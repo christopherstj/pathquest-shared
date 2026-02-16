@@ -254,6 +254,27 @@ export async function getPeakPublicSummitsCursor(
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Public Activities (Activity-Grouped)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function getPeakPublicActivities(
+  client: ApiClient,
+  params: { peakId: string; cursor?: string; limit?: number },
+  init?: JsonRequestInit
+) {
+  const searchParams = new URLSearchParams();
+  if (params.cursor) searchParams.set("cursor", params.cursor);
+  if (params.limit) searchParams.set("limit", String(params.limit));
+  const qs = searchParams.toString();
+
+  type Result = import("../../types").PublicActivityFeedResult;
+  return await client.fetchJson<Result>(
+    `/peaks/${encodeURIComponent(params.peakId)}/public-activities${qs ? `?${qs}` : ""}`,
+    init
+  );
+}
+
 export async function searchNearestPeaks(
   client: ApiClient,
   params: { lat: number; lng: number; page: number; search?: string },

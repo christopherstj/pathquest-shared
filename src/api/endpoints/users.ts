@@ -261,6 +261,46 @@ export async function getIsUserSubscribed(
   );
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Activity-First Journal
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type { ActivityJournalResult, ActivityJournalFilters } from "../../types";
+
+export async function getUserActivityJournal(
+  client: ApiClient,
+  userId: string,
+  params: {
+    cursor?: string;
+    limit?: number;
+    search?: string;
+    year?: number;
+    hasReport?: boolean;
+    hasSummits?: boolean;
+    sport?: string;
+    peakId?: string;
+  } = {},
+  init?: JsonRequestInit
+) {
+  const searchParams = new URLSearchParams();
+  if (params.cursor) searchParams.set("cursor", params.cursor);
+  if (params.limit) searchParams.set("limit", String(params.limit));
+  if (params.search) searchParams.set("search", params.search);
+  if (params.year) searchParams.set("year", String(params.year));
+  if (params.hasReport !== undefined) searchParams.set("hasReport", String(params.hasReport));
+  if (params.hasSummits !== undefined) searchParams.set("hasSummits", String(params.hasSummits));
+  if (params.sport) searchParams.set("sport", params.sport);
+  if (params.peakId) searchParams.set("peakId", params.peakId);
+  const qs = searchParams.toString();
+
+  // Import the type locally to avoid circular imports
+  type Result = import("../../types").ActivityJournalResult;
+  return await client.fetchJson<Result>(
+    `/users/${encodeURIComponent(userId)}/journal${qs ? `?${qs}` : ""}`,
+    init
+  );
+}
+
 export async function processHistoricalData(
   client: ApiClient,
   userId: string,

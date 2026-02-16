@@ -130,6 +130,23 @@ export async function getPublicActivity(
   return await client.fetchJson<PublicActivity>(`/activities/${encodeURIComponent(activityId)}/public`, init);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Public Activities (Activity-Grouped Community Feed)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export async function getRecentPublicActivities(
+  client: ApiClient,
+  params?: { limit?: number },
+  init?: JsonRequestInit
+) {
+  const limit = params?.limit ?? 10;
+  type Entry = import("../../types").PublicActivityEntry;
+  return await client.fetchJson<Entry[]>(
+    `/activities/public/recent?limit=${encodeURIComponent(String(limit))}`,
+    init
+  );
+}
+
 export async function getUnreviewedActivities(
   client: ApiClient,
   params?: { limit?: number },

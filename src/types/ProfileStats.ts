@@ -7,6 +7,7 @@ export interface ClimbingStreak {
 export interface ProfileStats {
     totalPeaks: number;
     totalSummits: number;
+    totalActivities: number;
     highestPeak: {
         id: string;
         name: string;

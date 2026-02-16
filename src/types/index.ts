@@ -2,6 +2,17 @@
 // Use `export type` to avoid emitting runtime JS for type-only modules.
 
 export type { default as Activity } from "./Activity";
+export type {
+  ActivityJournalEntry,
+  ActivityJournalSummit,
+  ActivityJournalFilters,
+  ActivityJournalResult,
+} from "./ActivityJournalEntry";
+export type {
+  PublicActivityEntry,
+  PublicActivityFeedSummit,
+  PublicActivityFeedResult,
+} from "./PublicActivityEntry";
 export type { ActivityStart } from "./ActivityStart";
 export type {
   default as PublicActivity,

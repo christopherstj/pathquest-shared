@@ -78,6 +78,9 @@ Phase 2 additions (used by native Peak Detail):
 - `getPeakActivity(client, peakId)` → `GET /api/peaks/:id/activity`
 - `getPeakPublicSummitsCursor(client, { peakId, cursor?, limit? })` → `GET /api/peaks/:id/public-summits` (cursor pagination; returns `{ summits, nextCursor, totalCount }`)
 
+Activity-first community endpoints:
+- `getPeakPublicActivities(client, { peakId, cursor?, limit? })` → `GET /api/peaks/:id/public-activities` (no auth). Returns public activities for a peak with nested summits, cursor-based pagination. Returns `PublicActivityFeedResult`.
+
 Conditions endpoints (Phase 1 — Conditions Data Layer):
 - `getPeakConditions(client, peakId)` → `GET /api/peaks/:id/conditions` (returns `PeakConditions` with weather, recent weather, summit window)
 - `getPeakSummitWindow(client, peakId)` → `GET /api/peaks/:id/summit-window` (returns `SummitWindow` with 7-day scores)
@@ -94,8 +97,14 @@ Trip report endpoints (added for activity-first trip reports):
 - `dismissActivityReview(client, activityId)` → `POST /api/activities/:id/dismiss` (auth required, owner only). Sets `is_reviewed = TRUE` without modifying trip report fields. Returns `{ success: boolean }`.
 - `getPublicActivity(client, activityId)` → `GET /api/activities/:id/public` (no auth). Returns PathQuest-owned activity data only (no Strava data): display_title, trip_report (if public), condition_tags (if public), start_time, timezone, user info (if public), and summits with peak data.
 
+Activity-first community endpoints:
+- `getRecentPublicActivities(client, { cursor?, limit? })` → `GET /api/activities/public/recent` (no auth). Returns recent public activities with nested summits for community feed. Returns `PublicActivityFeedResult`.
+
 ### Users (`api/endpoints/users.ts`)
 User profile and settings endpoints.
+
+Activity-first journal endpoint:
+- `getUserActivityJournal(client, { userId, cursor?, limit?, search?, year?, hasReport?, hasSummits?, sport?, peakId?, includePrivate? })` → `GET /api/users/:userId/journal` (optional auth). Returns `ActivityJournalResult` with activities as top-level entries and nested summits. Privacy-aware: omits Strava stats (title, sport, distance, gain) for non-owners.
 
 ### Photos (`api/endpoints/photos.ts`)
 Photo upload, management, and retrieval endpoints (Stage 4).
@@ -264,7 +273,9 @@ All 21 type definition files should be moved as-is to `pathquest-shared/src/type
 
 #### Core Domain Types
 - `Activity.ts` - Strava activity data structure (includes trip report fields: `trip_report`, `trip_report_is_public`, `display_title`, `condition_tags`, `is_reviewed`)
+- `ActivityJournalEntry.ts` - Activity-first journal types: `ActivityJournalEntry` (activity with nested summits, privacy-aware fields), `ActivityJournalSummit` (summit within an activity), `ActivityJournalFilters` (search, year, hasReport, hasSummits, sport, peakId), `ActivityJournalResult` (paginated result with totalCount + totalSummitCount)
 - `PublicActivity.ts` - Public activity data (PathQuest-owned only, no Strava data). Includes `PublicActivityUser` and `PublicActivitySummit` types.
+- `PublicActivityEntry.ts` - Activity-first community types: `PublicActivityEntry` (public activity with user info and nested summits), `PublicActivitySummit` (public summit with photos), `PublicActivityFeedResult` (paginated result)
 - `ActivityStart.ts` - Activity start location
 - `Peak.ts` - Mountain peak catalog entry
 - `Challenge.ts` - Challenge definition
@@ -276,13 +287,13 @@ All 21 type definition files should be moved as-is to `pathquest-shared/src/type
 #### Composite Types
 - `ChallengeProgress.ts` - Challenge with progress tracking (extends `Challenge`)
 - `AscentDetail.ts` - Detailed ascent information
-- `JournalEntry.ts` - Journal entry structure
+- `JournalEntry.ts` - **@deprecated** Legacy summit-first journal entry structure. Use `ActivityJournalEntry` instead.
 - `UserPeakWithSummitCount.ts` - Peak with user's summit count
 - `UserChallengeFavorite.ts` - User's favorited challenge
 
 #### Response Types
 - `ServerActionResult.ts` - Generic API response wrapper (`{ success, data?, error? }`)
-- `ProfileStats.ts` - User profile statistics
+- `ProfileStats.ts` - User profile statistics (includes `totalActivities` field)
 - `DashboardStats.ts` - Dashboard quick stats
 - `PeakActivity.ts` - Peak activity indicators (recent summits)
 - `CurrentWeather.ts` - Current weather data structure (shared with conditions)
