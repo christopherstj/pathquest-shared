@@ -9,6 +9,7 @@ import type {
   PeakActivity,
   PeakConditions,
   PeakForecast,
+  PlatformStats,
   Summit,
   SummitWindow,
   UnconfirmedSummit,
@@ -450,4 +451,17 @@ export async function getRecentPublicSummits(
     `/peaks/summits/public/recent?limit=${encodeURIComponent(String(limit))}`,
     init
   );
+}
+
+/**
+ * Get platform-wide stats for the guest landing page.
+ * Public endpoint - no auth required. Cached for 5 minutes server-side.
+ *
+ * GET /peaks/stats/platform
+ */
+export async function getPlatformStats(
+  client: ApiClient,
+  init?: JsonRequestInit
+): Promise<PlatformStats> {
+  return await client.fetchJson<PlatformStats>(`/peaks/stats/platform`, init);
 }

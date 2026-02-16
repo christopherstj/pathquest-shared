@@ -136,6 +136,7 @@ export type {
   ConditionsHistoryRange,
   PeakConditionsHistory,
 } from "./ConditionsApi";
+export type { PlatformStats } from "./PlatformStats";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";
 export type { PublicLandDetail, PublicLandPeaksResult } from "./PublicLandDetail";
