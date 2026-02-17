@@ -20,9 +20,11 @@ import type {
   StreamFlow,
   Summit,
   SummitWindow,
+  ThunderstormRisk,
   TrailConditions,
   UnconfirmedSummit,
   WeatherForecast,
+  WildlifeSafety,
 } from "../../types";
 
 export type PeakDetailsPublicResponse = {
@@ -431,6 +433,9 @@ export type PeakConditionsStatic = {
   fireProximity: FireProximity | null;
   trailConditions: TrailConditions | null;
   roadAccess: RoadAccess | null;
+  thunderstormRisk: ThunderstormRisk | null;
+  thunderstormRiskUpdatedAt: string | null;
+  wildlifeSafety: WildlifeSafety | null;
   publicLands: {
     objectId: string;
     name: string;
