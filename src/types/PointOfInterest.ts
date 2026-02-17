@@ -1,4 +1,16 @@
+import type { WeatherForecast, AvalancheForecast, SnotelData, NwsAlerts, StreamFlow, AirQuality, FireProximity } from "./PeakConditions";
+
 export type POIType = 'waterfall' | 'viewpoint' | 'hot_spring' | 'cave' | 'shelter' | 'fire_lookout' | 'picnic_area';
+
+export interface POIConditions {
+  weather: WeatherForecast | null;
+  nwsAlerts: NwsAlerts | null;
+  avalanche: AvalancheForecast | null;
+  snotel: SnotelData | null;
+  airQuality: AirQuality | null;
+  fireProximity: FireProximity | null;
+  streamFlow: StreamFlow | null;
+}
 
 export default interface PointOfInterest {
   id: number;

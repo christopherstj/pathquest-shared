@@ -1,5 +1,5 @@
 import type { ApiClient, JsonRequestInit } from "../client";
-import type { PointOfInterest } from "../../types";
+import type { PointOfInterest, POIConditions } from "../../types";
 import type { BboxParams } from "./trails";
 
 interface FeatureCollection {
@@ -53,6 +53,17 @@ export async function getTopPOI(
   const query = searchParams.toString();
   return await client.fetchJson<PointOfInterest[]>(
     `/poi/top${query ? `?${query}` : ""}`,
+    init
+  );
+}
+
+export async function getPOIConditions(
+  client: ApiClient,
+  poiId: string,
+  init?: JsonRequestInit
+): Promise<POIConditions> {
+  return await client.fetchJson<POIConditions>(
+    `/poi/${encodeURIComponent(poiId)}/conditions`,
     init
   );
 }
