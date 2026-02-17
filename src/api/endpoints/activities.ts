@@ -142,7 +142,7 @@ export async function getRecentPublicActivities(
   const limit = params?.limit ?? 10;
   type Entry = import("../../types").PublicActivityEntry;
   return await client.fetchJson<Entry[]>(
-    `/activities/public/recent?limit=${encodeURIComponent(String(limit))}`,
+    `/activities/recent-public?limit=${encodeURIComponent(String(limit))}`,
     init
   );
 }
