@@ -93,6 +93,7 @@ export type {
   SnotelTrend,
   NwsAlerts,
   NwsAlert,
+  NwsAlertZone,
   AlertSeverity,
   StreamFlow,
   StreamGauge,

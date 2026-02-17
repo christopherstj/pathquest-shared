@@ -171,6 +171,11 @@ export interface SnotelData {
 
 export type AlertSeverity = "Extreme" | "Severe" | "Moderate" | "Minor" | "Unknown";
 
+export interface NwsAlertZone {
+    id: string;
+    name: string;
+}
+
 export interface NwsAlert {
     id: string;
     event: string;
@@ -182,7 +187,7 @@ export interface NwsAlert {
     instruction: string | null;
     onset: string | null;
     expires: string | null;
-    zones: string[];
+    zones: NwsAlertZone[];
 }
 
 export interface NwsAlerts {
