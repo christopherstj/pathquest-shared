@@ -139,6 +139,17 @@ Photo upload, management, and retrieval endpoints (Stage 4).
 - `PublicSummitPhoto` - Photo for public summit cards (no user attribution)
 - `PublicSummitPhotosResponse`
 
+### POI (`api/endpoints/poi.ts`)
+Points of Interest endpoints for map features alongside peaks.
+
+- `searchPOI(client, { nwLat, nwLng, seLat, seLng })` -> `GET /api/poi/search` (POIs within bbox as GeoJSON)
+- `getPOIDetails(client, poiId)` -> `GET /api/poi/:id` (single POI detail)
+- `getTopPOI(client)` -> `GET /api/poi/top` (top POIs for static generation)
+
+**Types (`types/PointOfInterest.ts`):**
+- `PointOfInterest` - POI with `id`, `name`, `type`, `lat`, `lng`, and metadata
+- `POIType` - Union type: `"waterfall" | "viewpoint" | "hot_spring" | "cave" | "shelter" | "fire_lookout" | "picnic_area"`
+
 ### Trails (`api/endpoints/trails.ts`)
 Geographic trail data endpoints returning GeoJSON FeatureCollections within a bounding box. No auth required.
 

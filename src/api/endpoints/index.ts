@@ -9,4 +9,5 @@ export * from "./utils";
 export * from "./search";
 export * from "./trails";
 export * from "./conditions";
+export * from "./poi";
 

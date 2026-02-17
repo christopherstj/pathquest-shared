@@ -29,6 +29,7 @@ export type { default as ManualPeakSummit } from "./ManualPeakSummit";
 export type { default as Peak, PublicLand } from "./Peak";
 export type { default as PeakActivity } from "./PeakActivity";
 export type { default as PeakForecast, DailyForecast } from "./PeakForecast";
+export type { default as PointOfInterest, POIType } from "./PointOfInterest";
 export type {
   SummitType,
   SummitPhoto,
@@ -130,6 +131,7 @@ export type {
   StreamflowHistoryRecord,
   AqiSiteDetail,
   AqiHistoryRecord,
+  NwsZoneDetail,
   AvalancheZoneDetail,
   AreaConditionsSummary,
   ChallengeConditions,

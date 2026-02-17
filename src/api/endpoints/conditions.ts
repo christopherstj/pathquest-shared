@@ -3,6 +3,7 @@ import type {
     SnotelStationDetail,
     StreamGaugeDetail,
     AqiSiteDetail,
+    NwsZoneDetail,
     AvalancheZoneDetail,
     ChallengeConditions,
     PublicLandConditions,
@@ -189,6 +190,17 @@ export async function getAqiSiteDetail(
     const qs = searchParams.toString();
     return await client.fetchJson<AqiSiteDetail>(
         `/conditions/aqi/${encodeURIComponent(siteId)}${qs ? `?${qs}` : ""}`,
+        init
+    );
+}
+
+export async function getNwsZoneDetail(
+    client: ApiClient,
+    zoneId: string,
+    init?: JsonRequestInit
+): Promise<NwsZoneDetail> {
+    return await client.fetchJson<NwsZoneDetail>(
+        `/conditions/nws/${encodeURIComponent(zoneId)}`,
         init
     );
 }

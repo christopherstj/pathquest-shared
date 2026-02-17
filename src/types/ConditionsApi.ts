@@ -143,6 +143,31 @@ export interface AqiHistoryRecord {
     categoryNumber: number | null;
 }
 
+export interface NwsZoneDetail {
+    zoneId: string;
+    zoneName: string;
+    state: string | null;
+    zoneType: string | null;
+    alerts: {
+        alertId: string;
+        event: string;
+        severity: string;
+        urgency: string;
+        certainty: string;
+        headline: string;
+        description: string;
+        instruction: string | null;
+        onset: string | null;
+        expires: string | null;
+    }[];
+    activeAlertCount: number;
+    maxSeverity: string | null;
+    nearbyPeaks: SourceNearbyPeak[];
+    geometry?: any;
+    centroid?: [number, number];
+    affectedPublicLands?: { objectId: string; name: string; designationType: string; manager: string; acres: number | null }[];
+}
+
 export interface AvalancheZoneDetail {
     centerId: string;
     zoneId: string;
