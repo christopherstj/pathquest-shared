@@ -402,6 +402,45 @@ export type RecentPublicSummit = Summit & {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
+ * All ingested conditions for ISR/static pages — DB reads only.
+ * No LLM calls, no external API fetches. Safe to call at build time.
+ *
+ * GET /peaks/:id/conditions/static
+ */
+export type PeakConditionsStatic = {
+  peakId: string;
+  weather: import("../../types/PeakConditions").WeatherForecast | null;
+  recentWeather: import("../../types/PeakConditions").RecentWeather | null;
+  summitWindow: import("../../types/PeakConditions").SummitWindow | null;
+  weatherUpdatedAt: string | null;
+  avalanche: import("../../types/PeakConditions").AvalancheForecast | null;
+  snotel: import("../../types/PeakConditions").SnotelData | null;
+  nwsAlerts: import("../../types/PeakConditions").NwsAlerts | null;
+  streamFlow: import("../../types/PeakConditions").StreamFlow | null;
+  airQuality: import("../../types/PeakConditions").AirQuality | null;
+  fireProximity: import("../../types/PeakConditions").FireProximity | null;
+  trailConditions: import("../../types/PeakConditions").TrailConditions | null;
+  roadAccess: import("../../types/PeakConditions").RoadAccess | null;
+  publicLands: {
+    objectId: string;
+    name: string;
+    designationType: string;
+    manager: string;
+  }[];
+};
+
+export async function getPeakConditionsStatic(
+  client: ApiClient,
+  peakId: string,
+  init?: JsonRequestInit
+): Promise<PeakConditionsStatic> {
+  return await client.fetchJson<PeakConditionsStatic>(
+    `/peaks/${encodeURIComponent(peakId)}/conditions/static`,
+    init
+  );
+}
+
+/**
  * Get full conditions for a peak (weather, recent weather, summit window).
  * Public endpoint - no auth required. Data is cached and refreshed every 2hr.
  *

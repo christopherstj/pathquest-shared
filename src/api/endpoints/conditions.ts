@@ -20,6 +20,35 @@ interface FeatureCollection {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ISR Catalog Endpoints (for static generation)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type PublicLandCatalogItem = { objectId: string };
+export type AvalancheZoneCatalogItem = { centerId: string; zoneId: string };
+
+/** Public lands ≥1000 acres that contain at least one peak */
+export async function getPublicLandCatalog(
+    client: ApiClient,
+    init?: JsonRequestInit
+): Promise<PublicLandCatalogItem[]> {
+    return await client.fetchJson<PublicLandCatalogItem[]>(
+        "/map/public-lands/catalog",
+        init
+    );
+}
+
+/** All avalanche zone center_id/zone_id pairs */
+export async function getAvalancheZoneCatalog(
+    client: ApiClient,
+    init?: JsonRequestInit
+): Promise<AvalancheZoneCatalogItem[]> {
+    return await client.fetchJson<AvalancheZoneCatalogItem[]>(
+        "/conditions/avalanche/catalog",
+        init
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Map Layer Bbox Endpoints
 // ─────────────────────────────────────────────────────────────────────────────
 
