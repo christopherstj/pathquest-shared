@@ -1,11 +1,9 @@
 export interface PublicActivityEntry {
-    activityId: string | null;
     startTime: string;
     timezone?: string;
     displayTitle?: string;
     tripReport?: string;
     conditionTags?: string[];
-    stravaUrl?: string; // "View in Strava" link (public)
     isManualGroup: boolean;
     user: { id: string; name: string };
     summits: PublicActivityFeedSummit[];

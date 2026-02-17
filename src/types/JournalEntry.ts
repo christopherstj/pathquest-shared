@@ -27,6 +27,7 @@ export interface JournalEntry {
     activity?: {
         id: string;
         title: string;
+        display_title?: string;
         sport?: string;
         distance?: number;
         gain?: number;

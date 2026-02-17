@@ -5,6 +5,7 @@ export interface ActivityStart {
     gain?: number;
     peak_summits?: number;
     title?: string;
+    display_title?: string;
     id: string;
     user_id: string;
     start_coords?: [number, number];

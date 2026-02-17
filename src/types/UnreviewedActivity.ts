@@ -11,4 +11,7 @@ export interface UnreviewedActivity {
     sport: string | null;
     summit_count: number;
     peak_names: string[];
+    trip_report: string | null;
+    condition_tags: string[] | null;
+    trip_report_is_public: boolean;
 }
