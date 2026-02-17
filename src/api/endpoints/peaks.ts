@@ -1,18 +1,28 @@
 import type { ApiClient, JsonRequestInit } from "../client";
 import type {
   Activity,
+  AirQuality,
   AscentDetail,
+  AvalancheForecast,
   Challenge,
   CurrentWeather,
+  FireProximity,
   ManualPeakSummit,
+  NwsAlerts,
   Peak,
   PeakActivity,
   PeakConditions,
   PeakForecast,
   PlatformStats,
+  RecentWeather,
+  RoadAccess,
+  SnotelData,
+  StreamFlow,
   Summit,
   SummitWindow,
+  TrailConditions,
   UnconfirmedSummit,
+  WeatherForecast,
 } from "../../types";
 
 export type PeakDetailsPublicResponse = {
@@ -409,18 +419,18 @@ export type RecentPublicSummit = Summit & {
  */
 export type PeakConditionsStatic = {
   peakId: string;
-  weather: import("../../types/PeakConditions").WeatherForecast | null;
-  recentWeather: import("../../types/PeakConditions").RecentWeather | null;
-  summitWindow: import("../../types/PeakConditions").SummitWindow | null;
+  weather: WeatherForecast | null;
+  recentWeather: RecentWeather | null;
+  summitWindow: SummitWindow | null;
   weatherUpdatedAt: string | null;
-  avalanche: import("../../types/PeakConditions").AvalancheForecast | null;
-  snotel: import("../../types/PeakConditions").SnotelData | null;
-  nwsAlerts: import("../../types/PeakConditions").NwsAlerts | null;
-  streamFlow: import("../../types/PeakConditions").StreamFlow | null;
-  airQuality: import("../../types/PeakConditions").AirQuality | null;
-  fireProximity: import("../../types/PeakConditions").FireProximity | null;
-  trailConditions: import("../../types/PeakConditions").TrailConditions | null;
-  roadAccess: import("../../types/PeakConditions").RoadAccess | null;
+  avalanche: AvalancheForecast | null;
+  snotel: SnotelData | null;
+  nwsAlerts: NwsAlerts | null;
+  streamFlow: StreamFlow | null;
+  airQuality: AirQuality | null;
+  fireProximity: FireProximity | null;
+  trailConditions: TrailConditions | null;
+  roadAccess: RoadAccess | null;
   publicLands: {
     objectId: string;
     name: string;
