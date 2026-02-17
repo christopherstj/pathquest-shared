@@ -6,6 +6,7 @@ export interface PublicLand {
     type: string;
     typeName: string;
     manager: string;
+    inGrizzlyRange?: boolean;
 }
 
 export default interface Peak {

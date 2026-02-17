@@ -5,6 +5,7 @@ export interface PublicLandDetail {
     manager: string;
     centroid: [number, number];
     geometry: any;
+    inGrizzlyRange: boolean;
 }
 
 export interface PublicLandPeaksResult {
