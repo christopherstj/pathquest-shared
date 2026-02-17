@@ -265,10 +265,12 @@ export async function getFireDetail(
 export async function getPublicLandDetail(
     client: ApiClient,
     objectId: string,
+    params?: { fields?: "minimal" },
     init?: JsonRequestInit
 ): Promise<PublicLandDetail> {
+    const qs = params?.fields ? `?fields=${params.fields}` : "";
     return await client.fetchJson<PublicLandDetail>(
-        `/map/public-lands/${encodeURIComponent(objectId)}`,
+        `/map/public-lands/${encodeURIComponent(objectId)}${qs}`,
         init
     );
 }

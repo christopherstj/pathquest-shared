@@ -82,7 +82,8 @@ Activity-first community endpoints:
 - `getPeakPublicActivities(client, { peakId, cursor?, limit? })` → `GET /api/peaks/:id/public-activities` (no auth). Returns public activities for a peak with nested summits, cursor-based pagination. Returns `PublicActivityFeedResult`.
 
 Conditions endpoints (Phase 1 — Conditions Data Layer):
-- `getPeakConditions(client, peakId)` → `GET /api/peaks/:id/conditions` (returns `PeakConditions` with weather, recent weather, summit window)
+- `getPeakConditions(client, peakId)` → `GET /api/peaks/:id/conditions` (returns `PeakConditions` with weather, recent weather, summit window, gear recommendations via LLM)
+- `getPeakConditionsStatic(client, peakId)` → `GET /api/peaks/:id/conditions/static` (returns `PeakConditionsStatic` — all ingested conditions without AI/LLM: weather, snowpack, avalanche, alerts, streamflow, AQI, fires, trail conditions, road access, public lands. Safe for ISR build-time use.)
 - `getPeakSummitWindow(client, peakId)` → `GET /api/peaks/:id/summit-window` (returns `SummitWindow` with 7-day scores)
 - `getPeakConditionsHistory(client, peakId, { range?, sources? })` → `GET /api/peaks/:id/conditions/history` (returns `PeakConditionsHistory` with time-series data grouped by source station/site; see Conditions endpoints section for full details)
 
@@ -159,6 +160,10 @@ Conditions retrieval endpoints for map layers, individual source detail pages, a
 - `getMapStreamflow(client, bbox)` -> `GET /api/map/streamflow?bbox=` (USGS gauges as Point features with discharge, gage height, status)
 - `getMapAqi(client, bbox)` -> `GET /api/map/aqi?bbox=` (AQI monitors as Point features with AQI value, category, smoke impact)
 - `getMapAlerts(client, bbox)` -> `GET /api/map/alerts?bbox=` (NWS zones as Polygon features with active alerts array)
+
+**ISR Catalog Endpoints** (for `generateStaticParams` at build time):
+- `getPublicLandCatalog(client)` -> `GET /api/map/public-lands/catalog` (returns `PublicLandCatalogItem[]` — objectIds for lands ≥1000 acres with peaks)
+- `getAvalancheZoneCatalog(client)` -> `GET /api/conditions/avalanche/catalog` (returns `AvalancheZoneCatalogItem[]` — all center_id/zone_id pairs)
 
 **Area Conditions Summaries** (aggregated across all peaks in a region):
 - `getChallengeConditions(client, challengeId)` -> `GET /api/challenges/:challengeId/conditions` (returns `ChallengeConditions`)
