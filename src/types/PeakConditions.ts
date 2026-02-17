@@ -354,6 +354,40 @@ export interface GearRecommendations {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Thunderstorm / Lightning Risk
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type ThunderstormRiskLevel = "low" | "moderate" | "high" | "extreme";
+
+export interface ThunderstormRiskDay {
+    date: string;
+    peakCape: number | null;
+    afternoonCape: number | null;
+    riskLevel: ThunderstormRiskLevel;
+    riskStartHour: string | null;
+    riskEndHour: string | null;
+}
+
+export interface ThunderstormRisk {
+    current: { cape: number | null; riskLevel: ThunderstormRiskLevel };
+    daily: ThunderstormRiskDay[];
+    maxRiskToday: ThunderstormRiskLevel;
+    summaryMessage: string | null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Wildlife Safety
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface WildlifeSafety {
+    inGrizzlyRange: boolean;
+    wildernessBackcountry: boolean;
+    bearSprayRequired: boolean;
+    bearSprayRecommended: boolean;
+    ecosystemName: string | null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Full Peak Conditions Response
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -391,6 +425,13 @@ export interface PeakConditions {
     // Phase 6: Access
     roadAccess: RoadAccess | null;
     roadAccessUpdatedAt: string | null;
+
+    // Phase 7: Thunderstorm / Lightning
+    thunderstormRisk: ThunderstormRisk | null;
+    thunderstormRiskUpdatedAt: string | null;
+
+    // Phase 8: Wildlife Safety
+    wildlifeSafety: WildlifeSafety | null;
 
     // Aggregate
     gearRecommendations: GearRecommendations | null;

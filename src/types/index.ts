@@ -117,6 +117,10 @@ export type {
   GearRecommendations,
   GearItem,
   GearPriority,
+  ThunderstormRisk,
+  ThunderstormRiskDay,
+  ThunderstormRiskLevel,
+  WildlifeSafety,
 } from "./PeakConditions";
 export type {
   SnotelMapProperties,

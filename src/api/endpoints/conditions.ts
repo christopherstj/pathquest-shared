@@ -119,6 +119,19 @@ export async function getMapFires(
     );
 }
 
+export async function getMapThunderstormOutlooks(
+    client: ApiClient,
+    bbox: string,
+    params?: { day?: number },
+    init?: JsonRequestInit
+): Promise<FeatureCollection> {
+    const qs = params?.day ? `&day=${params.day}` : "";
+    return await client.fetchJson<FeatureCollection>(
+        `/map/thunderstorm-outlooks?bbox=${encodeURIComponent(bbox)}${qs}`,
+        init
+    );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Area Conditions (Challenge + Public Land)
 // ─────────────────────────────────────────────────────────────────────────────
