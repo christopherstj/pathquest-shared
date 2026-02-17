@@ -119,6 +119,17 @@ export async function getMapFires(
     );
 }
 
+export async function getMapGrizzlyRange(
+    client: ApiClient,
+    bbox: string,
+    init?: JsonRequestInit
+): Promise<FeatureCollection> {
+    return await client.fetchJson<FeatureCollection>(
+        `/map/grizzly-range?bbox=${encodeURIComponent(bbox)}`,
+        init
+    );
+}
+
 export async function getMapThunderstormOutlooks(
     client: ApiClient,
     bbox: string,
