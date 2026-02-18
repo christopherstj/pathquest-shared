@@ -33,12 +33,36 @@ export interface MobileRefreshResponse {
 }
 
 /**
+ * Response from provider-login (Google, email).
+ */
+export interface ProviderLoginResponse {
+    user: MobileAuthUser;
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: number;
+    isNewUser: boolean;
+}
+
+/**
+ * Response from email magic link send endpoint.
+ */
+export interface EmailSendResponse {
+    success: boolean;
+}
+
+/**
+ * Response from email magic link verify endpoint.
+ */
+export interface EmailVerifyResponse {
+    user: MobileAuthUser;
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: number;
+}
+
+/**
  * Exchange a Strava authorization code for PathQuest session tokens.
  * This is the entry point for mobile app authentication.
- *
- * @param client - API client (no auth headers needed for this endpoint)
- * @param params - The authorization code and PKCE code verifier
- * @param fetchOptions - Optional fetch options (e.g., for Next.js caching)
  */
 export async function exchangeStravaCode(
     client: ApiClient,
@@ -58,10 +82,6 @@ export async function exchangeStravaCode(
 
 /**
  * Refresh an expired access token using a valid refresh token.
- *
- * @param client - API client (no auth headers needed for this endpoint)
- * @param params - The refresh token
- * @param fetchOptions - Optional fetch options
  */
 export async function refreshMobileToken(
     client: ApiClient,
@@ -77,3 +97,53 @@ export async function refreshMobileToken(
     });
 }
 
+/**
+ * Login or register via provider (Google, email) on mobile.
+ */
+export async function mobileProviderLogin(
+    client: ApiClient,
+    params: {
+        provider: string;
+        providerId: string;
+        email?: string | null;
+        name?: string | null;
+        picture?: string | null;
+    },
+    fetchOptions?: Partial<JsonRequestInit>
+): Promise<ProviderLoginResponse> {
+    return client.fetchJson("/api/auth/mobile/provider-login", {
+        method: "POST",
+        json: params,
+        ...fetchOptions,
+    });
+}
+
+/**
+ * Send a magic link email for passwordless auth.
+ */
+export async function sendMagicLink(
+    client: ApiClient,
+    params: { email: string },
+    fetchOptions?: Partial<JsonRequestInit>
+): Promise<EmailSendResponse> {
+    return client.fetchJson("/api/auth/email/send", {
+        method: "POST",
+        json: params,
+        ...fetchOptions,
+    });
+}
+
+/**
+ * Verify a magic link token and log in.
+ */
+export async function verifyMagicLink(
+    client: ApiClient,
+    params: { token: string },
+    fetchOptions?: Partial<JsonRequestInit>
+): Promise<EmailVerifyResponse> {
+    return client.fetchJson("/api/auth/email/verify", {
+        method: "POST",
+        json: params,
+        ...fetchOptions,
+    });
+}
