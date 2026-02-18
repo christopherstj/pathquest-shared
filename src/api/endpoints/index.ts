@@ -10,4 +10,5 @@ export * from "./search";
 export * from "./trails";
 export * from "./conditions";
 export * from "./poi";
+export * from "./devices";
 
