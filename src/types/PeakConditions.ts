@@ -87,6 +87,8 @@ export interface SummitWindowDay {
     factors: SummitWindowFactors;
     summary: string; // e.g. "Clear with light winds"
     hazards?: HazardFlag[]; // present when non-weather hazards affect this day
+    bestWindowStart?: string; // e.g. "2026-02-20T08:00" — start of best 6h window
+    bestWindowEnd?: string;   // e.g. "2026-02-20T14:00" — end of best 6h window
 }
 
 export interface SummitWindow {
