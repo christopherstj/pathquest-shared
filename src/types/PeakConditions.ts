@@ -67,7 +67,6 @@ export interface SummitWindowFactors {
     precipitation: number; // 0-100
     temperature: number; // 0-100
     stormTiming: number; // 0-100
-    daylight: number; // 0-100
     cloudCover: number; // 0-100
 }
 
