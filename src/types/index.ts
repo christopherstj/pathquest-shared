@@ -42,6 +42,7 @@ export type {
   SummitPhotosResponse,
   PublicSummitPhoto,
   PublicSummitPhotosResponse,
+  HeroImage,
 } from "./Photo";
 export type { default as ProductDisplay } from "./ProductDisplay";
 export type { ClimbingStreak, ProfileStats } from "./ProfileStats";

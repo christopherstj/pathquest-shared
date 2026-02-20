@@ -1,4 +1,5 @@
 import Summit from "./Summit";
+import type { HeroImage } from "./Photo";
 
 export interface PublicLand {
     objectId?: string;
@@ -24,4 +25,5 @@ export default interface Peak {
     num_challenges?: number;
     ascents?: Summit[];
     publicLand?: PublicLand | null;
+    heroImage?: HeroImage | null;
 }

@@ -97,3 +97,19 @@ export interface PublicSummitPhoto {
 export interface PublicSummitPhotosResponse {
     photos: PublicSummitPhoto[];
 }
+
+/**
+ * Hero image metadata for a peak (auto-fetched from Wikipedia/Flickr/Mapbox).
+ * Returned as part of the peak details response.
+ * The URL is a GCS signed URL or public URL generated server-side.
+ */
+export interface HeroImage {
+    url: string;
+    thumbnailUrl: string | null;
+    source: "wikipedia" | "flickr" | "mapbox_satellite";
+    attribution: string | null;
+    attributionUrl: string | null;
+    license: string | null;
+    width: number | null;
+    height: number | null;
+}
