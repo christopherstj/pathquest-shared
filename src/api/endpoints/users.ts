@@ -118,7 +118,7 @@ export async function createUser(
     json: {
       id: data.id.toString(),
       name: data.name,
-      email: null,
+      email: data.email ?? null,
       pic: data.pic ?? null,
       stravaCreds: data.stravaCreds,
     },
