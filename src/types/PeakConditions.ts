@@ -70,6 +70,19 @@ export interface SummitWindowFactors {
     cloudCover: number; // 0-100
 }
 
+/** Raw weather metrics aggregated over a 6-hour window. */
+export interface WindowWeather {
+    tempHigh: number;      // °C max in window
+    tempLow: number;       // °C min in window
+    windSpeed: number;     // km/h max sustained
+    windGusts: number;     // km/h max gust
+    precipProb: number;    // % max probability
+    precipSum: number;     // mm total
+    cloudCover: number;    // % mean
+    capeMax: number;       // J/kg max afternoon CAPE
+    hasAfternoon: boolean; // window overlaps 12-18 local
+}
+
 export type HazardType = "avalanche" | "air_quality" | "fire";
 export type HazardSeverity = "caution" | "warning" | "danger";
 
@@ -83,7 +96,8 @@ export interface SummitWindowDay {
     date: string;
     score: number; // 0-100
     label: SummitWindowLabel;
-    factors: SummitWindowFactors;
+    weather?: WindowWeather;          // raw weather for this window
+    factors?: SummitWindowFactors;    // deprecated: kept for transition
     summary: string; // e.g. "Clear with light winds"
     hazards?: HazardFlag[]; // present when non-weather hazards affect this day
     bestWindowStart?: string; // e.g. "2026-02-20T08:00" — start of best 6h window

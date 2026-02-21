@@ -1,5 +1,6 @@
 import Summit from "./Summit";
 import type { HeroImage } from "./Photo";
+import type { WindowWeather } from "./PeakConditions";
 
 export interface PublicLand {
     objectId?: string;
@@ -16,7 +17,8 @@ export interface ConditionDailyScore {
     label: string;
     bestWindowStart: string;
     bestWindowEnd: string;
-    factors?: Record<string, number>;
+    weather?: WindowWeather;
+    factors?: Record<string, number>; // deprecated: kept for transition
 }
 
 export interface ConditionHazardFlag {

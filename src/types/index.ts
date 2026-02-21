@@ -81,6 +81,7 @@ export type {
   SummitWindowDay,
   SummitWindowLabel,
   SummitWindowFactors,
+  WindowWeather,
   HazardFlag,
   HazardType,
   HazardSeverity,
