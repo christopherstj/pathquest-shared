@@ -25,9 +25,21 @@ export interface WeatherForecastDaily {
     uvIndexMax: number | null;
 }
 
+export interface WeatherForecastHourly {
+    time: string[];                    // ISO, e.g. "2026-02-21T08:00"
+    temperature: number[];             // °C
+    precipitationProbability: number[]; // 0-100%
+    precipitation: number[];           // mm
+    weatherCode: number[];             // WMO codes
+    windSpeed: number[];               // km/h
+    windGusts: number[];               // km/h
+    cloudCover: number[];              // 0-100%
+}
+
 export interface WeatherForecast {
     current: CurrentWeather;
     daily: WeatherForecastDaily[];
+    hourly?: WeatherForecastHourly;
     timezone: string | null;
 }
 

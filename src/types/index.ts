@@ -75,6 +75,7 @@ export type {
   WeatherForecast,
   WeatherForecastCurrent,
   WeatherForecastDaily,
+  WeatherForecastHourly,
   RecentWeather,
   RecentWeatherDay,
   SummitWindow,
