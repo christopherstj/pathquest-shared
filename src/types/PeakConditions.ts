@@ -116,6 +116,7 @@ export interface SummitWindowDay {
     date: string;
     score: number; // 0-100
     label: SummitWindowLabel;
+    factor?: WeatherFactor;           // dominant weather factor for this day
     weather?: WindowWeather;          // raw weather for this window
     factors?: SummitWindowFactors;    // deprecated: kept for transition
     summary: string; // e.g. "Clear with light winds"
