@@ -74,6 +74,14 @@ export type SummitWindowLabel =
     | "Poor"
     | "Dangerous";
 
+export type WeatherFactor =
+    | "clear"
+    | "cold"
+    | "hot"
+    | "precipitation"
+    | "wind"
+    | "storm";
+
 export interface SummitWindowFactors {
     wind: number; // 0-100
     precipitation: number; // 0-100

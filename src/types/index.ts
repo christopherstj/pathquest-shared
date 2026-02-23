@@ -86,6 +86,7 @@ export type {
   HazardFlag,
   HazardType,
   HazardSeverity,
+  WeatherFactor,
   AvalancheForecast,
   AvalancheDangerLevel,
   AvalancheDangerRating,

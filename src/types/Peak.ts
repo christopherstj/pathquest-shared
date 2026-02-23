@@ -1,6 +1,6 @@
 import Summit from "./Summit";
 import type { HeroImage } from "./Photo";
-import type { WindowWeather } from "./PeakConditions";
+import type { WindowWeather, WeatherFactor } from "./PeakConditions";
 
 export interface PublicLand {
     objectId?: string;
@@ -19,6 +19,8 @@ export interface ConditionDailyScore {
     bestWindowEnd: string;
     weather?: WindowWeather;
     factors?: Record<string, number>; // deprecated: kept for transition
+    factor?: WeatherFactor;
+    summary?: string;
 }
 
 export interface ConditionHazardFlag {
@@ -48,4 +50,8 @@ export default interface Peak {
     condition_label?: string | null;
     condition_daily_scores?: ConditionDailyScore[] | null;
     condition_hazards?: ConditionHazardFlag[] | null;
+    // Weather factor coloring (for map markers)
+    condition_factor?: WeatherFactor | null;
+    condition_summary?: string | null;
+    condition_weather?: WindowWeather | null;
 }
