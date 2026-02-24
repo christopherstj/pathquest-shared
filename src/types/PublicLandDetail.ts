@@ -8,16 +8,28 @@ export interface PublicLandDetail {
     inGrizzlyRange: boolean;
 }
 
+export interface PublicLandPeak {
+    id: string;
+    name: string;
+    elevation: number | null;
+    state: string | null;
+    location_coords: [number, number] | null;
+    public_summits: number;
+    summits: number;
+    heroImage?: {
+        url: string;
+        thumbnailUrl: string | null;
+        source: string;
+        attribution: string | null;
+        attributionUrl: string | null;
+        license: string | null;
+        width: number | null;
+        height: number | null;
+    } | null;
+}
+
 export interface PublicLandPeaksResult {
-    peaks: Array<{
-        id: string;
-        name: string;
-        elevation: number | null;
-        state: string | null;
-        location_coords: [number, number] | null;
-        public_summits: number;
-        summits: number;
-    }>;
+    peaks: PublicLandPeak[];
     total: number;
     page: number;
     limit: number;

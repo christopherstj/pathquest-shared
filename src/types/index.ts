@@ -29,7 +29,7 @@ export type { default as ManualPeakSummit } from "./ManualPeakSummit";
 export type { default as Peak, PublicLand, ConditionDailyScore, ConditionHazardFlag } from "./Peak";
 export type { default as PeakActivity } from "./PeakActivity";
 export type { default as PeakForecast, DailyForecast } from "./PeakForecast";
-export type { default as PointOfInterest, POIType, POIConditions } from "./PointOfInterest";
+export type { default as PointOfInterest, POIType, POIConditions, POIFeatureProperties } from "./PointOfInterest";
 export type {
   SummitType,
   SummitPhoto,
@@ -157,5 +157,5 @@ export type {
 export type { PlatformStats } from "./PlatformStats";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";
-export type { PublicLandDetail, PublicLandPeaksResult } from "./PublicLandDetail";
+export type { PublicLandDetail, PublicLandPeak, PublicLandPeaksResult } from "./PublicLandDetail";
 

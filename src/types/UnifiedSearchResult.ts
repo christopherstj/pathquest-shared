@@ -40,6 +40,8 @@ export interface PeakSearchResult extends UnifiedSearchResultBase {
   numChallenges: number;
   /** Whether the user has favorited this peak */
   isFavorited?: boolean;
+  /** Signed thumbnail URL from hero image (if available) */
+  thumbnailUrl?: string;
 }
 
 export interface ChallengeSearchResult extends UnifiedSearchResultBase {
