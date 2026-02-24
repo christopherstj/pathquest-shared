@@ -19,7 +19,7 @@ export interface PublicLandPeak {
     heroImage?: {
         url: string;
         thumbnailUrl: string | null;
-        source: string;
+        source: "wikipedia" | "flickr" | "mapbox_satellite";
         attribution: string | null;
         attributionUrl: string | null;
         license: string | null;
