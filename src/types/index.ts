@@ -64,6 +64,8 @@ export type {
   UnifiedSearchResultBase,
   PeakSearchResult,
   ChallengeSearchResult,
+  POISearchResult,
+  PublicLandSearchResult,
   UnifiedSearchResult,
   UnifiedSearchResponse,
   UnifiedSearchParams,

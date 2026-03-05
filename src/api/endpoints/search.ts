@@ -54,6 +54,12 @@ export async function unifiedSearch(
   if (params.includeChallenges !== undefined) {
     searchParams.set("includeChallenges", String(params.includeChallenges));
   }
+  if (params.includePOIs !== undefined) {
+    searchParams.set("includePOIs", String(params.includePOIs));
+  }
+  if (params.includePublicLands !== undefined) {
+    searchParams.set("includePublicLands", String(params.includePublicLands));
+  }
 
   const qs = searchParams.toString();
   return await client.fetchJson<UnifiedSearchResponse>(

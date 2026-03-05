@@ -59,7 +59,28 @@ export interface ChallengeSearchResult extends UnifiedSearchResultBase {
   isFavorited?: boolean;
 }
 
-export type UnifiedSearchResult = PeakSearchResult | ChallengeSearchResult;
+export interface POISearchResult extends UnifiedSearchResultBase {
+  type: "poi";
+  id: number;
+  name: string | null;
+  poi_type: string;
+  elevation_m?: number;
+  state?: string;
+  location_coords?: [number, number];
+}
+
+export interface PublicLandSearchResult extends UnifiedSearchResultBase {
+  type: "public_land";
+  objectid: number;
+  name: string;
+  designation_type?: string;
+  manager?: string;
+  state?: string;
+  acres?: number;
+  center_coords?: [number, number];
+}
+
+export type UnifiedSearchResult = PeakSearchResult | ChallengeSearchResult | POISearchResult | PublicLandSearchResult;
 
 export interface UnifiedSearchResponse {
   /** Combined and sorted results */
@@ -68,6 +89,10 @@ export interface UnifiedSearchResponse {
   totalPeaks: number;
   /** Total count of matching challenges (before limit) */
   totalChallenges: number;
+  /** Total count of matching POIs (before limit) */
+  totalPOIs: number;
+  /** Total count of matching public lands (before limit) */
+  totalPublicLands: number;
 }
 
 export interface UnifiedSearchParams {
@@ -85,4 +110,8 @@ export interface UnifiedSearchParams {
   includePeaks?: boolean;
   /** Include challenges in results (default true) */
   includeChallenges?: boolean;
+  /** Include POIs in results (default true) */
+  includePOIs?: boolean;
+  /** Include public lands in results (default true) */
+  includePublicLands?: boolean;
 }
