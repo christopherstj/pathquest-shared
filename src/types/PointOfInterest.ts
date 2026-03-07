@@ -1,6 +1,6 @@
 import type {
   WeatherForecast, AvalancheForecast, SnotelData, NwsAlerts,
-  StreamFlow, AirQuality, FireProximity,
+  StreamFlow, AirQuality, FireProximity, RecentWeather, SummitWindow,
   ThunderstormRisk, WildlifeSafety, GearRecommendations
 } from "./PeakConditions";
 import type { SnowPointData } from "./SnowPoint";
@@ -9,6 +9,9 @@ export type POIType = 'waterfall' | 'viewpoint' | 'hot_spring' | 'cave' | 'shelt
 
 export interface POIConditions {
   weather: WeatherForecast | null;
+  recentWeather: RecentWeather | null;
+  summitWindow: SummitWindow | null;
+  weatherUpdatedAt: string | null;
   nwsAlerts: NwsAlerts | null;
   avalanche: AvalancheForecast | null;
   snotel: SnotelData | null;
