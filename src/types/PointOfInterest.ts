@@ -3,6 +3,7 @@ import type {
   StreamFlow, AirQuality, FireProximity, RecentWeather, SummitWindow,
   ThunderstormRisk, WildlifeSafety, GearRecommendations
 } from "./PeakConditions";
+import type { PublicLand } from "./Peak";
 import type { SnowPointData } from "./SnowPoint";
 
 export type POIType = 'waterfall' | 'viewpoint' | 'hot_spring' | 'cave' | 'shelter' | 'fire_lookout' | 'picnic_area';
@@ -51,4 +52,5 @@ export default interface PointOfInterest {
   county: string | null;
   country: string | null;
   properties: Record<string, unknown>;
+  publicLand?: PublicLand | null;
 }
