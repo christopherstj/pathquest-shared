@@ -6,7 +6,7 @@ import type {
 import type { PublicLand } from "./Peak";
 import type { SnowPointData } from "./SnowPoint";
 
-export type POIType = 'waterfall' | 'viewpoint' | 'hot_spring' | 'cave' | 'shelter' | 'fire_lookout' | 'picnic_area';
+export type POIType = 'waterfall' | 'viewpoint' | 'hot_spring' | 'spring' | 'cave' | 'shelter' | 'fire_lookout' | 'picnic_area' | 'camp_site';
 
 export interface POIConditions {
   weather: WeatherForecast | null;
