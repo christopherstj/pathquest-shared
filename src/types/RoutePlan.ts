@@ -54,7 +54,19 @@ export interface ConditionSample {
     label: string;
     factor: string | null;
     dailyScores: ConditionSampleDay[] | null;
+    hourly: HourlyForecastPoint[] | null;
     hazards: { type: string; severity: string; message: string }[] | null;
+}
+
+export interface HourlyForecastPoint {
+    time: string;       // ISO e.g. "2026-03-12T10:00"
+    tempC: number;
+    windSpeedKmh: number;
+    windGustsKmh: number;
+    precipProb: number;
+    precipMm: number;
+    cloudCover: number;
+    cape: number;
 }
 
 export interface ConditionSampleDay {

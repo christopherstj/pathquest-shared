@@ -169,6 +169,7 @@ export type {
   SurfaceSegment,
   WaterCrossing,
   ConditionSample,
+  HourlyForecastPoint,
   ConditionSampleDay,
   ConditionSampleWeather,
   SnowpackSample,
