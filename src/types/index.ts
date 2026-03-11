@@ -159,6 +159,32 @@ export type {
   UnlinkDeviceResponse,
 } from "./DeviceConnection";
 export type { PlatformStats } from "./PlatformStats";
+export type {
+  RoutePlan,
+  RoutePlanSourceType,
+  AnalysisStatus,
+  RouteAnalysis,
+  RoutePlanWithAnalysis,
+  ElevationPoint,
+  SurfaceSegment,
+  WaterCrossing,
+  ConditionSample,
+  ConditionSampleDay,
+  ConditionSampleWeather,
+  SnowpackSample,
+  RoutePeakAlongRoute,
+  RoutePOIAlongRoute,
+  RouteAvalancheZone,
+  RouteNwsAlert,
+  RouteFireProximity,
+  RouteAqiObservation,
+  RouteSnotelStation,
+  RouteThunderstormDay,
+  RouteWildlifeSafety,
+  CreateRoutePlanBody,
+  CreateRoutePlanFromActivityBody,
+  CreateRoutePlanResponse,
+} from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";
 export type { PublicLandDetail, PublicLandPeak, PublicLandPeaksResult } from "./PublicLandDetail";
