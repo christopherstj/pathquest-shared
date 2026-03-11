@@ -221,3 +221,7 @@ export interface CreateRoutePlanResponse {
     name: string;
     analysisStatus: AnalysisStatus;
 }
+
+export interface RouteConditionsResponse {
+    conditionsSamples: ConditionSample[];
+}

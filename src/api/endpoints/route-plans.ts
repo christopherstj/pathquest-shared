@@ -5,6 +5,7 @@ import type {
     CreateRoutePlanBody,
     CreateRoutePlanFromActivityBody,
     CreateRoutePlanResponse,
+    RouteConditionsResponse,
 } from "../../types";
 
 export async function createRoutePlan(
@@ -68,6 +69,17 @@ export async function deleteRoutePlan(
     await client.fetchJson<void>(
         `/route-plans/${encodeURIComponent(id)}`,
         { ...init, method: "DELETE" }
+    );
+}
+
+export async function getRouteConditions(
+    client: ApiClient,
+    id: string,
+    init?: JsonRequestInit
+): Promise<RouteConditionsResponse> {
+    return await client.fetchJson<RouteConditionsResponse>(
+        `/route-plans/${encodeURIComponent(id)}/conditions`,
+        init
     );
 }
 

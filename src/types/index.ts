@@ -185,6 +185,7 @@ export type {
   CreateRoutePlanBody,
   CreateRoutePlanFromActivityBody,
   CreateRoutePlanResponse,
+  RouteConditionsResponse,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";
