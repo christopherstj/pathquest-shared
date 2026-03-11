@@ -57,6 +57,8 @@ export type {
 export type { default as SummitWithPeak } from "./SummitWithPeak";
 export type { UnconfirmedSummit } from "./UnconfirmedSummit";
 export type { default as User } from "./User";
+export type { DescriptionPreferences } from "./DescriptionPreferences";
+export { DEFAULT_DESCRIPTION_PREFERENCES } from "./DescriptionPreferences";
 export type { default as UserChallengeFavorite } from "./UserChallengeFavorite";
 export type { UserPeakWithSummitCount } from "./UserPeakWithSummitCount";
 export type {

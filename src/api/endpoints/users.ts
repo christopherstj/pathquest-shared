@@ -2,6 +2,7 @@ import type { ApiClient, JsonRequestInit } from "../client";
 import type {
   Challenge,
   ChallengeProgress,
+  DescriptionPreferences,
   ProfileStats,
   ServerActionResult,
   StravaCreds,
@@ -134,6 +135,7 @@ export type UpdateUserData = {
   country?: string;
   location_coords?: [number, number] | null;
   update_description?: boolean;
+  description_preferences?: DescriptionPreferences;
   is_public?: boolean;
   units?: "imperial" | "metric";
 };

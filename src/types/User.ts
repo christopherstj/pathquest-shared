@@ -1,9 +1,12 @@
+import type { DescriptionPreferences } from "./DescriptionPreferences";
+
 export default interface User {
     id: string;
     name: string;
     email?: string;
     pic: string;
     update_description: boolean;
+    description_preferences?: DescriptionPreferences | null;
     city?: string;
     state?: string;
     country?: string;
