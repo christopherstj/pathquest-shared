@@ -43,6 +43,12 @@ export interface WaterCrossing {
     waterwayType: string | null;
     lat: number;
     lng: number;
+    dischargeCfs: number | null;
+    gageHeightFt: number | null;
+    streamflowPercentile: number | null;
+    streamflowStatus: string | null;
+    gaugeName: string | null;
+    gaugeSiteId: string | null;
 }
 
 export interface ConditionSample {
@@ -92,6 +98,7 @@ export interface SnowpackSample {
     distanceM: number;
     lat: number;
     lng: number;
+    elevationM: number | null;
     snowDepthIn: number | null;
     sweIn: number | null;
 }
@@ -104,16 +111,23 @@ export interface RoutePeakAlongRoute {
     distanceAlongM: number;
     lat: number;
     lng: number;
+    conditionScore: number | null;
+    conditionLabel: string | null;
+    conditionFactor: string | null;
+    publicSummitCount: number;
+    thumbnailUrl: string | null;
 }
 
 export interface RoutePOIAlongRoute {
     poiId: number;
-    name: string;
+    name: string | null;
     poiType: string;
     distanceFromRouteM: number;
     distanceAlongM: number;
     lat: number;
     lng: number;
+    conditionScore: number | null;
+    conditionLabel: string | null;
 }
 
 export interface RouteAvalancheZone {
