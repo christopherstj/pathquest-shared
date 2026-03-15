@@ -230,6 +230,11 @@ export interface CreateRoutePlanFromActivityBody {
     plannedDays?: number;
 }
 
+export interface ListRoutePlansResponse {
+    plans: RoutePlan[];
+    total: number;
+}
+
 export interface CreateRoutePlanResponse {
     id: string;
     name: string;

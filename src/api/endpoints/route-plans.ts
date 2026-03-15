@@ -5,6 +5,7 @@ import type {
     CreateRoutePlanBody,
     CreateRoutePlanFromActivityBody,
     CreateRoutePlanResponse,
+    ListRoutePlansResponse,
     RouteConditionsResponse,
 } from "../../types";
 
@@ -39,12 +40,12 @@ export async function listRoutePlans(
     client: ApiClient,
     params?: { page?: number; limit?: number },
     init?: JsonRequestInit
-): Promise<RoutePlan[]> {
+): Promise<ListRoutePlansResponse> {
     const searchParams = new URLSearchParams();
     if (params?.page) searchParams.set("page", params.page.toString());
     if (params?.limit) searchParams.set("limit", params.limit.toString());
     const query = searchParams.toString();
-    return await client.fetchJson<RoutePlan[]>(
+    return await client.fetchJson<ListRoutePlansResponse>(
         `/route-plans${query ? `?${query}` : ""}`,
         init
     );
