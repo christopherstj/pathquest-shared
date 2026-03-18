@@ -1,4 +1,5 @@
 import type { ApiClient, JsonRequestInit } from "../client";
+import { ApiError } from "../../util/errors";
 import type {
     RoutePlan,
     RoutePlanWithAnalysis,
@@ -133,16 +134,58 @@ export async function createRoutePlanFromStravaRoute(
 export async function generateRoutePlan(
     client: ApiClient,
     body: GenerateRoutePlanBody,
-    init?: JsonRequestInit
+    options?: {
+        onStatus?: (message: string) => void;
+        init?: JsonRequestInit;
+    }
 ): Promise<GenerateRoutePlanResponse> {
-    return await client.fetchJson<GenerateRoutePlanResponse>(
-        "/route-plans/generate",
-        {
-            ...init,
-            method: "POST",
-            json: body,
+    const res = await client.fetchSSE("/route-plans/generate", {
+        ...options?.init,
+        method: "POST",
+        json: body,
+    });
+
+    const text = await res.text();
+    let result: GenerateRoutePlanResponse | null = null;
+    let errorMessage: string | null = null;
+
+    // Parse SSE events from the response body
+    for (const block of text.split("\n\n")) {
+        const lines = block.split("\n");
+        let event = "";
+        let data = "";
+        for (const line of lines) {
+            if (line.startsWith("event: ")) event = line.slice(7);
+            else if (line.startsWith("data: ")) data = line.slice(6);
         }
-    );
+        if (!event || !data) continue;
+
+        if (event === "status" && options?.onStatus) {
+            const parsed = JSON.parse(data) as { message: string };
+            options.onStatus(parsed.message);
+        } else if (event === "result") {
+            result = JSON.parse(data) as GenerateRoutePlanResponse;
+        } else if (event === "error") {
+            errorMessage = (JSON.parse(data) as { message: string }).message;
+        }
+    }
+
+    if (errorMessage) {
+        throw new ApiError({
+            status: 500,
+            url: "/route-plans/generate",
+            message: errorMessage,
+        });
+    }
+    if (!result) {
+        throw new ApiError({
+            status: 500,
+            url: "/route-plans/generate",
+            message: "No result received from route generation",
+        });
+    }
+
+    return result;
 }
 
 export async function createFromGeometry(

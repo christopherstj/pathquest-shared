@@ -196,6 +196,7 @@ export type {
   RouteCandidate,
   GenerateRoutePlanBody,
   GenerateRoutePlanResponse,
+  GenerateRouteEvent,
   CreateFromGeometryBody,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";

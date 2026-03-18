@@ -29,6 +29,7 @@ export type JsonRequestInit = Omit<RequestInit, "headers" | "body"> & {
 export interface ApiClient {
   baseUrl: string;
   fetchJson<T = unknown>(pathOrUrl: string, init?: JsonRequestInit): Promise<T>;
+  fetchSSE(pathOrUrl: string, init?: JsonRequestInit): Promise<Response>;
 }
 
 function normalizeBaseUrl(baseUrl: string): string {
@@ -99,6 +100,44 @@ export function createApiClient(opts: CreateApiClientOptions): ApiClient {
           message: "Failed to parse JSON response",
         });
       }
+    },
+
+    async fetchSSE(pathOrUrl: string, init?: JsonRequestInit): Promise<Response> {
+      const url = resolveUrl(baseUrl, pathOrUrl);
+      const authHeaders = (await opts.getAuthHeaders?.()) ?? {};
+
+      const headers: HeadersObject = {
+        ...defaultHeaders,
+        ...authHeaders,
+        ...(init?.headers ?? {}),
+        Accept: "text/event-stream",
+      };
+
+      let body: BodyInit | undefined = undefined;
+      if (init && "json" in init) {
+        body = init.json === undefined ? undefined : JSON.stringify(init.json);
+        if (!headers["Content-Type"] && !headers["content-type"]) {
+          headers["Content-Type"] = "application/json";
+        }
+      }
+
+      const res = await fetchImpl(url, {
+        ...init,
+        headers,
+        body,
+      });
+
+      if (!res.ok) {
+        const bodyText = await res.text().catch(() => undefined);
+        throw new ApiError({
+          status: res.status,
+          url,
+          bodyText,
+          message: bodyText || `API request failed (${res.status})`,
+        });
+      }
+
+      return res;
     },
   };
 }

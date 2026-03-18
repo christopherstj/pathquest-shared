@@ -321,6 +321,12 @@ export interface GenerateRoutePlanResponse {
     candidates: RouteCandidate[];
 }
 
+/** SSE event types streamed by POST /route-plans/generate */
+export type GenerateRouteEvent =
+    | { event: "status"; data: { message: string } }
+    | { event: "result"; data: GenerateRoutePlanResponse }
+    | { event: "error"; data: { message: string } };
+
 export interface CreateFromGeometryBody {
     sessionId?: string;
     candidateId?: number;
