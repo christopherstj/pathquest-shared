@@ -307,6 +307,8 @@ export interface RouteCandidate {
 
 export interface GenerateRoutePlanBody {
     start?: { lat: number; lng: number };
+    mapCenter?: { lat: number; lng: number };
+    userLocation?: { lat: number; lng: number };
     format?: RouteFormat;
     constraints?: RouteConstraints;
     waypoints?: { lat: number; lng: number }[];
