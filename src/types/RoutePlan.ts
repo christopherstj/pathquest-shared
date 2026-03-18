@@ -20,6 +20,7 @@ export interface RoutePlan {
     analysisStatus: AnalysisStatus;
     analyzedAt: string | null;
     createdAt: string;
+    startCoords: [number, number] | null; // [lng, lat]
     coords?: [number, number][]; // [lng, lat][] — only in detail response
 }
 
@@ -31,7 +32,7 @@ export interface ElevationPoint {
 export interface SurfaceSegment {
     startM: number;
     endM: number;
-    type: "trail" | "road" | "off_trail";
+    type: "trail" | "paved" | "unpaved" | "off_trail";
     subtype: string | null; // footway, track, path, secondary, etc.
     surface: string | null; // paved, gravel, dirt, etc.
     name: string | null;
@@ -185,10 +186,12 @@ export interface RouteWildlifeSafety {
 export interface RouteAnalysis {
     surfaceBreakdown: {
         trailM: number;
-        roadM: number;
+        pavedM: number;
+        unpavedM: number;
         offTrailM: number;
         trailPct: number;
-        roadPct: number;
+        pavedPct: number;
+        unpavedPct: number;
         offTrailPct: number;
     };
     surfaceSegments: SurfaceSegment[] | null;
@@ -243,4 +246,87 @@ export interface CreateRoutePlanResponse {
 
 export interface RouteConditionsResponse {
     conditionsSamples: ConditionSample[];
+}
+
+export interface StravaRouteListItem {
+    id: string;
+    name: string;
+    description: string;
+    distance: number;
+    elevationGain: number;
+    type: number;
+    starred: boolean;
+    createdAt: string;
+    summaryPolyline: string | null;
+    estimatedMovingTime: number | null;
+}
+
+export interface ListStravaRoutesResponse {
+    routes: StravaRouteListItem[];
+}
+
+export interface CreateRoutePlanFromStravaRouteBody {
+    stravaRouteId: string;
+    name?: string;
+    plannedDate?: string;
+    plannedDays?: number;
+}
+
+// ---------------------------------------------------------------------------
+// Route generation (AI candidates)
+// ---------------------------------------------------------------------------
+
+export type RouteFormat = "loop" | "point_to_point" | "out_and_back";
+
+export interface RouteConstraints {
+    distanceM?: number;
+    elevationGainM?: number;
+    surface?: "trail" | "road" | "any";
+}
+
+export interface CandidateConditions {
+    avalancheZones: { centerId: string; zoneId: string; zoneName: string; danger: unknown }[];
+    nwsAlerts: { event: string; severity: string; headline: string | null }[];
+    fireProximity: { name: string | null; distanceKm: number; acres: number | null }[];
+    maxWindGustKmh: number | null;
+    hazardFlags: string[];
+}
+
+export interface RouteCandidate {
+    candidateId: number;
+    coords: [number, number][];         // simplified [lng, lat] for preview
+    fullCoordCount: number;
+    distanceM: number;
+    elevationGainM: number | null;
+    elevationLossM: number | null;
+    elevationProfile: ElevationPoint[] | null;
+    estimatedTimeMin: number | null;
+    constraintScore: number;            // 0-100, how well it matches constraints
+    conditions: CandidateConditions | null;
+}
+
+export interface GenerateRoutePlanBody {
+    start?: { lat: number; lng: number };
+    format?: RouteFormat;
+    constraints?: RouteConstraints;
+    waypoints?: { lat: number; lng: number }[];
+    destination?: { lat: number; lng: number };
+    candidateCount?: number;
+    includeConditions?: boolean;
+    prompt?: string;
+}
+
+export interface GenerateRoutePlanResponse {
+    sessionId: string;
+    candidates: RouteCandidate[];
+}
+
+export interface CreateFromGeometryBody {
+    sessionId?: string;
+    candidateId?: number;
+    coords?: [number, number][];
+    name: string;
+    sourceType?: string;
+    plannedDate?: string;
+    plannedDays?: number;
 }

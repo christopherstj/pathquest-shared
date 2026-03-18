@@ -187,6 +187,16 @@ export type {
   CreateRoutePlanResponse,
   ListRoutePlansResponse,
   RouteConditionsResponse,
+  StravaRouteListItem,
+  ListStravaRoutesResponse,
+  CreateRoutePlanFromStravaRouteBody,
+  RouteFormat,
+  RouteConstraints,
+  CandidateConditions,
+  RouteCandidate,
+  GenerateRoutePlanBody,
+  GenerateRoutePlanResponse,
+  CreateFromGeometryBody,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";

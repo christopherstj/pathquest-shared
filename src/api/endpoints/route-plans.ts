@@ -4,9 +4,14 @@ import type {
     RoutePlanWithAnalysis,
     CreateRoutePlanBody,
     CreateRoutePlanFromActivityBody,
+    CreateRoutePlanFromStravaRouteBody,
     CreateRoutePlanResponse,
     ListRoutePlansResponse,
+    ListStravaRoutesResponse,
     RouteConditionsResponse,
+    GenerateRoutePlanBody,
+    GenerateRoutePlanResponse,
+    CreateFromGeometryBody,
 } from "../../types";
 
 export async function createRoutePlan(
@@ -92,5 +97,65 @@ export async function refreshRoutePlan(
     return await client.fetchJson<CreateRoutePlanResponse>(
         `/route-plans/${encodeURIComponent(id)}/refresh`,
         { ...init, method: "POST" }
+    );
+}
+
+export async function listStravaRoutes(
+    client: ApiClient,
+    params?: { page?: number; perPage?: number },
+    init?: JsonRequestInit
+): Promise<ListStravaRoutesResponse> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set("page", params.page.toString());
+    if (params?.perPage) searchParams.set("perPage", params.perPage.toString());
+    const query = searchParams.toString();
+    return await client.fetchJson<ListStravaRoutesResponse>(
+        `/route-plans/strava-routes${query ? `?${query}` : ""}`,
+        init
+    );
+}
+
+export async function createRoutePlanFromStravaRoute(
+    client: ApiClient,
+    body: CreateRoutePlanFromStravaRouteBody,
+    init?: JsonRequestInit
+): Promise<CreateRoutePlanResponse> {
+    return await client.fetchJson<CreateRoutePlanResponse>(
+        "/route-plans/from-strava-route",
+        {
+            ...init,
+            method: "POST",
+            json: body,
+        }
+    );
+}
+
+export async function generateRoutePlan(
+    client: ApiClient,
+    body: GenerateRoutePlanBody,
+    init?: JsonRequestInit
+): Promise<GenerateRoutePlanResponse> {
+    return await client.fetchJson<GenerateRoutePlanResponse>(
+        "/route-plans/generate",
+        {
+            ...init,
+            method: "POST",
+            json: body,
+        }
+    );
+}
+
+export async function createFromGeometry(
+    client: ApiClient,
+    body: CreateFromGeometryBody,
+    init?: JsonRequestInit
+): Promise<CreateRoutePlanResponse> {
+    return await client.fetchJson<CreateRoutePlanResponse>(
+        "/route-plans/from-geometry",
+        {
+            ...init,
+            method: "POST",
+            json: body,
+        }
     );
 }
