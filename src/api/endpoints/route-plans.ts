@@ -15,6 +15,9 @@ import type {
     CreateFromGeometryBody,
     RouteSegmentBody,
     RouteSegmentResponse,
+    FeaturesAlongCoordsBody,
+    FeaturesAlongCoordsResponse,
+    UpdateRoutePlanGeometryBody,
 } from "../../types";
 
 export async function createRoutePlan(
@@ -215,6 +218,37 @@ export async function routeSegment(
         {
             ...init,
             method: "POST",
+            json: body,
+        }
+    );
+}
+
+export async function featuresAlongCoords(
+    client: ApiClient,
+    body: FeaturesAlongCoordsBody,
+    init?: JsonRequestInit
+): Promise<FeaturesAlongCoordsResponse> {
+    return await client.fetchJson<FeaturesAlongCoordsResponse>(
+        "/route-plans/features-along",
+        {
+            ...init,
+            method: "POST",
+            json: body,
+        }
+    );
+}
+
+export async function updateRoutePlanGeometry(
+    client: ApiClient,
+    id: string,
+    body: UpdateRoutePlanGeometryBody,
+    init?: JsonRequestInit
+): Promise<CreateRoutePlanResponse> {
+    return await client.fetchJson<CreateRoutePlanResponse>(
+        `/route-plans/${encodeURIComponent(id)}/geometry`,
+        {
+            ...init,
+            method: "PUT",
             json: body,
         }
     );

@@ -34,7 +34,7 @@ export interface ElevationPoint {
 export interface SurfaceSegment {
     startM: number;
     endM: number;
-    type: "trail" | "paved" | "unpaved" | "off_trail";
+    type: "trail" | "paved" | "unpaved" | "road_unclassified" | "off_trail";
     subtype: string | null; // footway, track, path, secondary, etc.
     surface: string | null; // paved, gravel, dirt, etc.
     name: string | null;
@@ -190,10 +190,12 @@ export interface RouteAnalysis {
         trailM: number;
         pavedM: number;
         unpavedM: number;
+        roadUnclassifiedM: number;
         offTrailM: number;
         trailPct: number;
         pavedPct: number;
         unpavedPct: number;
+        roadUnclassifiedPct: number;
         offTrailPct: number;
     };
     surfaceSegments: SurfaceSegment[] | null;
@@ -357,4 +359,29 @@ export interface RouteSegmentResponse {
     elevationGainM: number | null;
     elevationLossM: number | null;
     elevationProfile: ElevationPoint[] | null;
+}
+
+// ---------------------------------------------------------------------------
+// Features along arbitrary coords (live draw mode)
+// ---------------------------------------------------------------------------
+
+export interface FeaturesAlongCoordsBody {
+    coords: [number, number][];
+}
+
+export interface FeaturesAlongCoordsResponse {
+    peaks: RoutePeakAlongRoute[];
+    pois: RoutePOIAlongRoute[];
+}
+
+// ---------------------------------------------------------------------------
+// Update route geometry (editing)
+// ---------------------------------------------------------------------------
+
+export interface UpdateRoutePlanGeometryBody {
+    coords: [number, number][];
+    elevationProfile?: { distanceM: number; elevationM: number }[];
+    elevationGainM?: number;
+    elevationLossM?: number;
+    waypoints?: { lat: number; lng: number }[];
 }

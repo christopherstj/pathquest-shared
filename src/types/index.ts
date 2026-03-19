@@ -200,6 +200,9 @@ export type {
   CreateFromGeometryBody,
   RouteSegmentBody,
   RouteSegmentResponse,
+  FeaturesAlongCoordsBody,
+  FeaturesAlongCoordsResponse,
+  UpdateRoutePlanGeometryBody,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";
