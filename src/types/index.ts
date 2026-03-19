@@ -198,6 +198,8 @@ export type {
   GenerateRoutePlanResponse,
   GenerateRouteEvent,
   CreateFromGeometryBody,
+  RouteSegmentBody,
+  RouteSegmentResponse,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";

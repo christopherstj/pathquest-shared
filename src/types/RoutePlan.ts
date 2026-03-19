@@ -2,7 +2,9 @@ export type RoutePlanSourceType =
     | "gpx_upload"
     | "geojson_upload"
     | "strava_activity"
-    | "strava_route";
+    | "strava_route"
+    | "ai_generated"
+    | "drawn";
 
 export type AnalysisStatus = "pending" | "analyzing" | "completed" | "failed";
 
@@ -216,6 +218,7 @@ export interface RouteAnalysis {
 
 export interface RoutePlanWithAnalysis extends RoutePlan {
     analysis: RouteAnalysis | null;
+    waypoints?: { lat: number; lng: number }[] | null;
 }
 
 export interface CreateRoutePlanBody {
@@ -333,8 +336,25 @@ export interface CreateFromGeometryBody {
     sessionId?: string;
     candidateId?: number;
     coords?: [number, number][];
+    waypoints?: { lat: number; lng: number }[];
     name: string;
     sourceType?: string;
     plannedDate?: string;
     plannedDays?: number;
+}
+
+// ---------------------------------------------------------------------------
+// Draw-on-map routing
+// ---------------------------------------------------------------------------
+
+export interface RouteSegmentBody {
+    waypoints: { lat: number; lng: number }[];
+}
+
+export interface RouteSegmentResponse {
+    coords: [number, number][];
+    distanceM: number;
+    elevationGainM: number | null;
+    elevationLossM: number | null;
+    elevationProfile: ElevationPoint[] | null;
 }
