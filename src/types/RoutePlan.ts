@@ -131,6 +131,7 @@ export interface RoutePOIAlongRoute {
     lng: number;
     conditionScore: number | null;
     conditionLabel: string | null;
+    conditionFactor: string | null;
 }
 
 export interface RouteAvalancheZone {
