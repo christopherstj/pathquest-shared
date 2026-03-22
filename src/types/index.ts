@@ -203,6 +203,8 @@ export type {
   FeaturesAlongCoordsBody,
   FeaturesAlongCoordsResponse,
   UpdateRoutePlanGeometryBody,
+  UpdateRoutePlanMetadataBody,
+  UpdateRoutePlanMetadataResponse,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";

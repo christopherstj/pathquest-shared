@@ -18,6 +18,8 @@ import type {
     FeaturesAlongCoordsBody,
     FeaturesAlongCoordsResponse,
     UpdateRoutePlanGeometryBody,
+    UpdateRoutePlanMetadataBody,
+    UpdateRoutePlanMetadataResponse,
 } from "../../types";
 
 export async function createRoutePlan(
@@ -251,5 +253,17 @@ export async function updateRoutePlanGeometry(
             method: "PUT",
             json: body,
         }
+    );
+}
+
+export async function updateRoutePlanMetadata(
+    client: ApiClient,
+    id: string,
+    body: UpdateRoutePlanMetadataBody,
+    init?: JsonRequestInit
+): Promise<UpdateRoutePlanMetadataResponse> {
+    return await client.fetchJson<UpdateRoutePlanMetadataResponse>(
+        `/route-plans/${encodeURIComponent(id)}`,
+        { ...init, method: "PATCH", json: body }
     );
 }

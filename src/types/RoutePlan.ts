@@ -386,3 +386,20 @@ export interface UpdateRoutePlanGeometryBody {
     elevationLossM?: number;
     waypoints?: { lat: number; lng: number }[];
 }
+
+// ---------------------------------------------------------------------------
+// Update route plan metadata
+// ---------------------------------------------------------------------------
+
+export interface UpdateRoutePlanMetadataBody {
+    name?: string;
+    plannedDate?: string | null;
+    plannedDays?: number;
+}
+
+export interface UpdateRoutePlanMetadataResponse {
+    id: string;
+    name: string;
+    plannedDate: string | null;
+    plannedDays: number;
+}
