@@ -52,6 +52,7 @@ export interface WaterCrossing {
     streamflowStatus: string | null;
     gaugeName: string | null;
     gaugeSiteId: string | null;
+    category: "gauged" | "named" | "unnamed";
 }
 
 export interface ConditionSample {
