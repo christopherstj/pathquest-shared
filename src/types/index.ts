@@ -182,6 +182,7 @@ export type {
   RouteSnotelStation,
   RouteThunderstormDay,
   RouteWildlifeSafety,
+  RouteNearbyGauge,
   CreateRoutePlanBody,
   CreateRoutePlanFromActivityBody,
   CreateRoutePlanResponse,

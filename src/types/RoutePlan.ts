@@ -187,6 +187,16 @@ export interface RouteWildlifeSafety {
     ecosystems: string[];
 }
 
+export interface RouteNearbyGauge {
+    siteId: string;
+    name: string;
+    distanceKm: number;
+    dischargeCfs: number | null;
+    gageHeightFt: number | null;
+    streamflowPercentile: number | null;
+    streamflowStatus: string | null;
+}
+
 export interface RouteAnalysis {
     surfaceBreakdown: {
         trailM: number;
@@ -213,6 +223,7 @@ export interface RouteAnalysis {
     peaksAlongRoute: RoutePeakAlongRoute[] | null;
     poisAlongRoute: RoutePOIAlongRoute[] | null;
     wildlifeSafety: RouteWildlifeSafety | null;
+    nearbyGauges: RouteNearbyGauge[] | null;
     overallScore: number | null;
     overallLabel: string | null;
     hazardSummary: string[] | null;
