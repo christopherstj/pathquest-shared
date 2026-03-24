@@ -190,6 +190,8 @@ export interface RouteWildlifeSafety {
 export interface RouteNearbyGauge {
     siteId: string;
     name: string;
+    lat: number;
+    lng: number;
     distanceKm: number;
     dischargeCfs: number | null;
     gageHeightFt: number | null;
