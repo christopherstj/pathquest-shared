@@ -16,7 +16,7 @@ export interface RoutePlan {
     distanceM: number;
     elevationGainM: number | null;
     elevationLossM: number | null;
-    elevationProfile: ElevationPoint[] | null;
+    elevationProfile?: ElevationPoint[] | null;
     plannedDate: string | null;
     plannedDays: number;
     analysisStatus: AnalysisStatus;
