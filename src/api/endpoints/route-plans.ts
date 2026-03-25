@@ -3,6 +3,8 @@ import { ApiError } from "../../util/errors";
 import type {
     RoutePlan,
     RoutePlanWithAnalysis,
+    SharedRoutePlan,
+    CopyRoutePlanResponse,
     CreateRoutePlanBody,
     CreateRoutePlanFromActivityBody,
     CreateRoutePlanFromStravaRouteBody,
@@ -265,5 +267,27 @@ export async function updateRoutePlanMetadata(
     return await client.fetchJson<UpdateRoutePlanMetadataResponse>(
         `/route-plans/${encodeURIComponent(id)}`,
         { ...init, method: "PATCH", json: body }
+    );
+}
+
+export async function getSharedRoutePlan(
+    client: ApiClient,
+    shareToken: string,
+    init?: JsonRequestInit
+): Promise<SharedRoutePlan> {
+    return await client.fetchJson<SharedRoutePlan>(
+        `/route-plans/shared/${encodeURIComponent(shareToken)}`,
+        init
+    );
+}
+
+export async function copyRoutePlan(
+    client: ApiClient,
+    shareToken: string,
+    init?: JsonRequestInit
+): Promise<CopyRoutePlanResponse> {
+    return await client.fetchJson<CopyRoutePlanResponse>(
+        `/route-plans/copy/${encodeURIComponent(shareToken)}`,
+        { ...init, method: "POST" }
     );
 }

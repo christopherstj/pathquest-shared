@@ -162,6 +162,7 @@ export type { PlatformStats } from "./PlatformStats";
 export type {
   RoutePlan,
   RoutePlanSourceType,
+  RoutePlanVisibility,
   AnalysisStatus,
   RouteAnalysis,
   RoutePlanWithAnalysis,
@@ -206,6 +207,8 @@ export type {
   UpdateRoutePlanGeometryBody,
   UpdateRoutePlanMetadataBody,
   UpdateRoutePlanMetadataResponse,
+  SharedRoutePlan,
+  CopyRoutePlanResponse,
 } from "./RoutePlan";
 export type { SnowPointData } from "./SnowPoint";
 export type { FireDetail, AffectedPublicLand } from "./FireDetail";

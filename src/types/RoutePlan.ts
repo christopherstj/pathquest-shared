@@ -4,7 +4,10 @@ export type RoutePlanSourceType =
     | "strava_activity"
     | "strava_route"
     | "ai_generated"
-    | "drawn";
+    | "drawn"
+    | "copied";
+
+export type RoutePlanVisibility = "private" | "unlisted" | "public";
 
 export type AnalysisStatus = "pending" | "analyzing" | "completed" | "failed";
 
@@ -236,6 +239,18 @@ export interface RouteAnalysis {
 export interface RoutePlanWithAnalysis extends RoutePlan {
     analysis: RouteAnalysis | null;
     waypoints?: { lat: number; lng: number }[] | null;
+    visibility: RoutePlanVisibility;
+    shareToken: string | null;
+}
+
+export interface SharedRoutePlan extends RoutePlanWithAnalysis {
+    ownerName: string;
+}
+
+export interface CopyRoutePlanResponse {
+    id: string;
+    name: string;
+    analysisStatus: AnalysisStatus;
 }
 
 export interface CreateRoutePlanBody {
@@ -409,6 +424,7 @@ export interface UpdateRoutePlanMetadataBody {
     name?: string;
     plannedDate?: string | null;
     plannedDays?: number;
+    visibility?: RoutePlanVisibility;
 }
 
 export interface UpdateRoutePlanMetadataResponse {
@@ -416,4 +432,6 @@ export interface UpdateRoutePlanMetadataResponse {
     name: string;
     plannedDate: string | null;
     plannedDays: number;
+    visibility: RoutePlanVisibility;
+    shareToken: string | null;
 }
