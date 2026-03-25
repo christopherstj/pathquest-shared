@@ -259,6 +259,7 @@ export interface CreateRoutePlanBody {
     name: string;
     plannedDate?: string;
     plannedDays?: number;
+    visibility?: RoutePlanVisibility;
 }
 
 export interface CreateRoutePlanFromActivityBody {
@@ -266,6 +267,7 @@ export interface CreateRoutePlanFromActivityBody {
     name?: string;
     plannedDate?: string;
     plannedDays?: number;
+    visibility?: RoutePlanVisibility;
 }
 
 export interface ListRoutePlansResponse {
@@ -277,6 +279,8 @@ export interface CreateRoutePlanResponse {
     id: string;
     name: string;
     analysisStatus: AnalysisStatus;
+    visibility: RoutePlanVisibility;
+    shareToken: string | null;
 }
 
 export interface RouteConditionsResponse {
@@ -305,6 +309,7 @@ export interface CreateRoutePlanFromStravaRouteBody {
     name?: string;
     plannedDate?: string;
     plannedDays?: number;
+    visibility?: RoutePlanVisibility;
 }
 
 // ---------------------------------------------------------------------------
@@ -373,6 +378,7 @@ export interface CreateFromGeometryBody {
     sourceType?: string;
     plannedDate?: string;
     plannedDays?: number;
+    visibility?: RoutePlanVisibility;
 }
 
 // ---------------------------------------------------------------------------
