@@ -126,6 +126,7 @@ export type SearchPeaksParams = {
   page?: string;
   perPage?: string;
   showSummittedPeaks?: string;
+  onlySummited?: string;
 };
 
 export async function searchPeaks(
@@ -142,6 +143,7 @@ export async function searchPeaks(
   if (params?.page) searchParams.set("page", params.page);
   if (params?.perPage) searchParams.set("perPage", params.perPage);
   if (params?.showSummittedPeaks) searchParams.set("showSummittedPeaks", params.showSummittedPeaks);
+  if (params?.onlySummited) searchParams.set("onlySummited", params.onlySummited);
   const qs = searchParams.toString();
   return await client.fetchJson<Peak[]>(`/peaks/search${qs ? `?${qs}` : ""}`, init);
 }
