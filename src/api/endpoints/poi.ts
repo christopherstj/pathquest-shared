@@ -13,7 +13,7 @@ interface FeatureCollection {
 
 export async function searchPOI(
   client: ApiClient,
-  params: BboxParams & { types?: string },
+  params: BboxParams & { poiTypes?: string },
   init?: JsonRequestInit
 ): Promise<FeatureCollection> {
   const searchParams = new URLSearchParams();
@@ -21,8 +21,8 @@ export async function searchPOI(
   searchParams.set("nwLng", params.nwLng);
   searchParams.set("seLat", params.seLat);
   searchParams.set("seLng", params.seLng);
-  if (params.types) {
-    searchParams.set("types", params.types);
+  if (params.poiTypes) {
+    searchParams.set("poiTypes", params.poiTypes);
   }
   return await client.fetchJson<FeatureCollection>(
     `/poi/search?${searchParams.toString()}`,
