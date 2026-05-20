@@ -30,6 +30,7 @@ export type { default as Peak, PublicLand, ConditionDailyScore, ConditionHazardF
 export type { default as PeakActivity } from "./PeakActivity";
 export type { default as PeakForecast, DailyForecast } from "./PeakForecast";
 export type { default as PointOfInterest, POIType, POIConditions, POIFeatureProperties } from "./PointOfInterest";
+export { POI_TYPES, POI_TYPE_LABELS } from "./PointOfInterest";
 export type {
   SummitType,
   SummitPhoto,

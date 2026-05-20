@@ -8,6 +8,20 @@ import type { SnowPointData } from "./SnowPoint";
 
 export type POIType = 'waterfall' | 'viewpoint' | 'hot_spring' | 'spring' | 'cave' | 'shelter' | 'fire_lookout' | 'picnic_area' | 'camp_site';
 
+export const POI_TYPES: POIType[] = ['waterfall', 'viewpoint', 'hot_spring', 'spring', 'cave', 'shelter', 'fire_lookout', 'picnic_area', 'camp_site'];
+
+export const POI_TYPE_LABELS: Record<POIType, string> = {
+  waterfall: "Waterfalls",
+  viewpoint: "Viewpoints",
+  hot_spring: "Hot Springs",
+  spring: "Springs",
+  cave: "Caves",
+  shelter: "Shelters",
+  fire_lookout: "Fire Lookouts",
+  picnic_area: "Picnic Areas",
+  camp_site: "Campsites",
+};
+
 export interface POIConditions {
   weather: WeatherForecast | null;
   recentWeather: RecentWeather | null;
