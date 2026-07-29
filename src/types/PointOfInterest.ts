@@ -45,12 +45,6 @@ export interface POIFeatureProperties {
   name: string | null;
   poi_type: POIType;
   elevation_m: number | null;
-  condition_score?: number;
-  condition_label?: string;
-  condition_factor?: string;
-  condition_daily_scores?: any[];
-  condition_hazards?: any[];
-  condition_summary?: string;
 }
 
 export default interface PointOfInterest {

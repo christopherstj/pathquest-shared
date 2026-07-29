@@ -34,30 +34,6 @@ export interface ElevationPoint {
     elevationM: number;
 }
 
-export interface SurfaceSegment {
-    startM: number;
-    endM: number;
-    type: "trail" | "paved" | "unpaved" | "road_unclassified" | "off_trail";
-    subtype: string | null; // footway, track, path, secondary, etc.
-    surface: string | null; // paved, gravel, dirt, etc.
-    name: string | null;
-}
-
-export interface WaterCrossing {
-    distanceM: number;
-    name: string | null;
-    waterwayType: string | null;
-    lat: number;
-    lng: number;
-    dischargeCfs: number | null;
-    gageHeightFt: number | null;
-    streamflowPercentile: number | null;
-    streamflowStatus: string | null;
-    gaugeName: string | null;
-    gaugeSiteId: string | null;
-    category: "gauged" | "named" | "unnamed";
-}
-
 export interface ConditionSample {
     distanceM: number;
     lat: number;
@@ -118,9 +94,6 @@ export interface RoutePeakAlongRoute {
     distanceAlongM: number;
     lat: number;
     lng: number;
-    conditionScore: number | null;
-    conditionLabel: string | null;
-    conditionFactor: string | null;
     publicSummitCount: number;
     thumbnailUrl: string | null;
 }
@@ -133,9 +106,6 @@ export interface RoutePOIAlongRoute {
     distanceAlongM: number;
     lat: number;
     lng: number;
-    conditionScore: number | null;
-    conditionLabel: string | null;
-    conditionFactor: string | null;
 }
 
 export interface RouteAvalancheZone {
@@ -203,20 +173,6 @@ export interface RouteNearbyGauge {
 }
 
 export interface RouteAnalysis {
-    surfaceBreakdown: {
-        trailM: number;
-        pavedM: number;
-        unpavedM: number;
-        roadUnclassifiedM: number;
-        offTrailM: number;
-        trailPct: number;
-        pavedPct: number;
-        unpavedPct: number;
-        roadUnclassifiedPct: number;
-        offTrailPct: number;
-    };
-    surfaceSegments: SurfaceSegment[] | null;
-    waterCrossings: WaterCrossing[] | null;
     conditionsSamples: ConditionSample[] | null;
     avalancheZones: RouteAvalancheZone[] | null;
     nwsAlerts: RouteNwsAlert[] | null;
@@ -244,6 +200,7 @@ export interface RoutePlanWithAnalysis extends RoutePlan {
 }
 
 export interface SharedRoutePlan extends RoutePlanWithAnalysis {
+    ownerId: string;
     ownerName: string;
 }
 
@@ -321,14 +278,12 @@ export type RouteFormat = "loop" | "point_to_point" | "out_and_back";
 export interface RouteConstraints {
     distanceM?: number;
     elevationGainM?: number;
-    surface?: "trail" | "road" | "any";
 }
 
 export interface CandidateConditions {
     avalancheZones: { centerId: string; zoneId: string; zoneName: string; danger: unknown }[];
     nwsAlerts: { event: string; severity: string; headline: string | null }[];
     fireProximity: { name: string | null; distanceKm: number; acres: number | null }[];
-    maxWindGustKmh: number | null;
     hazardFlags: string[];
 }
 
